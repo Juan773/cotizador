@@ -1,0 +1,24 @@
+{
+  "name": "cotizador-pdf",
+  "version": "1.0.0",
+  "description": "Aplicación de cotización PDF para Digital Trade Group",
+  "main": "server.js",
+  "bin": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build": "pkg . --targets node18-win-x64 --output dist/CotizadorPDF.exe"
+  },
+  "pkg": {
+    "assets": [
+      "index.html",
+      "styles.css",
+      "app.js",
+      "html2pdf.bundle.min.js",
+      "assets/**/*"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": ["cotizador", "pdf", "quotation"],
+  "author": "Digital Trade Group",
+  "license": "ISC"
+}

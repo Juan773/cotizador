@@ -1,0 +1,161 @@
+{
+    "companies": [
+        {
+            "id": "dtg",
+            "ruc": "20601030013",
+            "nombre_comercial": "DIGITAL TRADE GROUP",
+            "tagline": "TECHNOLOGY & IMPORTS",
+            "logo": "assets/logos/digital_trade.jpeg",
+            "banco": "BCP",
+            "cuenta": "1917234591075",
+            "cci": "00219100723459107555",
+            "titular": "DIGITAL WAVE IMPORTS SAC",
+            "direccion": "CA. TEODORO VALCARCEL 185 - SANTIAGO DE SURCO",
+            "correo": "comercial.digitaltradegroup@gmail.com",
+            "documentTitle": "COTIZACIÓN",
+            "labels": {
+                "client": "Señores:",
+                "itemHeader": "Nombre"
+            },
+            "theme": {
+                "primary": "#002c77",
+                "secondary": "#0066cc",
+                "accent": "#00a8e1",
+                "headerFont": "'Roboto', sans-serif",
+                "headerWeight": "700",
+                "style": "modern",
+                "layout": "standard",
+                "borderRadius": "rounded",
+                "boxShadow": false,
+                "quoteFont": "'Roboto Mono', monospace",
+                "quoteTitleFont": "'Montserrat', sans-serif"
+            }
+        },
+        {
+            "id": "coldfrog",
+            "ruc": "10454981656",
+            "nombre_comercial": "COLDFROG STORE",
+            "tagline": "Soluciones tecnológicas para todos",
+            "logo": "assets/logos/coldfrog.jpeg",
+            "banco": "BBVA",
+            "cuenta": "191 05832267 0 77",
+            "cci": "002 19110583226707756",
+            "titular": "",
+            "direccion": "AV ABANCAY 291 - CERCADO DE LIMA",
+            "correo": "coldfrogstore.ventas@gmail.com",
+            "documentTitle": "PROFORMA",
+            "labels": {
+                "client": "Cliente:",
+                "itemHeader": "Producto"
+            },
+            "theme": {
+                "primary": "#00b4d8",
+                "secondary": "#0077b6",
+                "accent": "#90e0ef",
+                "headerFont": "'Poppins', sans-serif",
+                "bodyFont": "'Poppins', sans-serif",
+                "headerWeight": "600",
+                "style": "fresh",
+                "layout": "inverted",
+                "footerStyle": "small",
+                "borderRadius": "square",
+                "boxShadow": true,
+                "quoteTitleFont": "'Raleway', sans-serif"
+            }
+        },
+        {
+            "id": "interlab",
+            "ruc": "10040499143",
+            "nombre_comercial": "INTERLAB PERU INVERSIONES",
+            "tagline": "",
+            "logo": "assets/logos/interlab.jpeg",
+            "banco": "BBVA",
+            "cuenta": "0011 0814 0272273 524",
+            "cci": "011 814 000272273524 14",
+            "titular": "",
+            "direccion": "JR CHANCAY 741",
+            "correo": "marketing.interlab.corporation@gmail.com",
+            "documentTitle": "PROFORMA",
+            "labels": {
+                "client": "Señores:",
+                "itemHeader": "Producto"
+            },
+            "theme": {
+                "primary": "#1a472a",
+                "secondary": "#2d6a4f",
+                "accent": "#52b788",
+                "headerFont": "'Merriweather', serif",
+                "bodyFont": "'Open Sans', sans-serif",
+                "headerWeight": "700",
+                "style": "scientific",
+                "layout": "inverted",
+                "borderRadius": "rounded",
+                "boxShadow": true,
+                "quoteFont": "'Courier Prime', monospace",
+                "quoteTitleFont": "'Merriweather', serif"
+            }
+        },
+        {
+            "id": "iceberg",
+            "ruc": "10192268546",
+            "nombre_comercial": "ICEBERG IMPORTS",
+            "tagline": "",
+            "logo": "assets/logos/iceberg.jpeg",
+            "banco": "BCP",
+            "cuenta": "193 06347171 083",
+            "cci": "002 193 10634717208316",
+            "titular": "",
+            "direccion": "CALLE BERNARDO TASSO 433 - SAN BORJA",
+            "correo": "icebergimports.ventas@gmail.com",
+            "documentTitle": "COTIZACIÓN",
+            "labels": {
+                "client": "Cliente:",
+                "itemHeader": "Nombre"
+            },
+            "theme": {
+                "primary": "#1e3a5f",
+                "secondary": "#4a5f7f",
+                "accent": "#c9d6df",
+                "headerFont": "'Montserrat', sans-serif",
+                "bodyFont": "'Lato', sans-serif",
+                "headerWeight": "600",
+                "style": "elegant",
+                "layout": "inverted",
+                "footerStyle": "hidden",
+                "borderRadius": "square",
+                "boxShadow": false,
+                "quoteTitleFont": "'Roboto Mono', monospace"
+            }
+        },
+        {
+            "id": "global",
+            "ruc": "10443578159",
+            "nombre_comercial": "GLOBAL IMPORT ",
+            "tagline": "",
+            "logo": "assets/logos/global_import.jpeg",
+            "banco": "BCP",
+            "cuenta": "193 06347171 083",
+            "cci": "00219119894482206257",
+            "titular": "",
+            "direccion": "AV BOLIVIA 180 - CERCADO DE LIMA",
+            "correo": "ventas.globalboximp@gmail.com",
+            "documentTitle": "COTIZACIÓN",
+            "labels": {
+                "client": "Señores:",
+                "itemHeader": "Nombre"
+            },
+            "theme": {
+                "primary": "#d62828",
+                "secondary": "#8b2635",
+                "accent": "#f77f00",
+                "headerFont": "'Raleway', sans-serif",
+                "bodyFont": "'Inter', sans-serif",
+                "headerWeight": "700",
+                "style": "dynamic",
+                "layout": "standard",
+                "borderRadius": "rounded",
+                "boxShadow": true
+            }
+        }
+    ]
+}

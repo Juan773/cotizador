@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="es">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Cotizador - Digital Trade Group</title>
+
+  <!-- Google Fonts for Themes -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&family=Merriweather:wght@700&family=Open+Sans:wght@400&family=Montserrat:wght@600&family=Lato:wght@400&family=Raleway:wght@700&family=Inter:wght@400&display=swap"
+    rel="stylesheet">
+
+  <link rel="stylesheet" href="styles.css" />
+
+  <style>
+    :root {
+      /* Dynamic Theme Variables - Default: Digital Trade Group */
+      --theme-primary: #002c77;
+      --theme-secondary: #0066cc;
+      --theme-accent: #00a8e1;
+      --theme-header-font: 'Roboto', sans-serif;
+      --theme-body-font: 'Roboto', sans-serif;
+      --theme-header-weight: 700;
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img class="brand__logo" id="brandLogo" src="assets/logo.jpeg" alt="Logo" />
+      <div class="brand__text">
+        <div class="brand__name" id="brandName">DIGITAL TRADE GROUP</div>
+        <div class="brand__tag" id="brandTag">TECHNOLOGY & IMPORTS</div>
+      </div>
+    </div>
+    <div class="company-selector">
+      <label for="companySelect" class="company-selector__label">Empresa:</label>
+      <select id="companySelect" class="company-selector__select">
+        <option value="">Cargando...</option>
+      </select>
+    </div>
+    <div class="topbar__actions">
+      <button id="btnReset" class="btn btn--ghost" type="button">Limpiar</button>
+      <button id="btnGenerate" class="btn btn--primary" type="button">Generar PDF</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <section class="panel">
+      <h2>Datos de la cotización</h2>
+
+      <form id="quoteForm" autocomplete="off">
+        <div class="grid">
+          <div class="field">
+            <label>N° Cotización</label>
+            <input id="quoteNo" required placeholder="A-000000" />
+          </div>
+          <div class="field">
+            <label>Validez</label>
+            <input id="quoteValidity" placeholder="7 días" />
+          </div>
+          <div class="field">
+            <label>Fecha</label>
+            <input id="quoteDate" type="date" required />
+          </div>
+        </div>
+
+        <h3>Cliente</h3>
+        <div class="grid">
+          <div class="field span-2">
+            <label>Cliente</label>
+            <input id="clientName" required placeholder="Nombre del cliente" />
+          </div>
+          <div class="field">
+            <label>RUC</label>
+            <input id="clientDoc" placeholder="00000000000" />
+          </div>
+          <div class="field">
+            <label>Atención</label>
+            <input id="clientAttn" placeholder="Sr(a). ..." />
+          </div>
+          <div class="field span-2">
+            <label>Dirección</label>
+            <input id="clientAddress" placeholder="Dirección del cliente" />
+          </div>
+          <div class="field">
+            <label>Departamento</label>
+            <input id="clientDepartment" placeholder="Lima" />
+          </div>
+          <div class="field">
+            <label>Distrito</label>
+            <input id="clientDistrict" placeholder="Miraflores" />
+          </div>
+          <div class="field">
+            <label>Entrega</label>
+            <input id="delivery" placeholder="24-48 horas" />
+          </div>
+          <div class="field">
+            <label>Moneda</label>
+            <select id="currency">
+              <option value="S/">S/ (PEN)</option>
+              <option value="$">$ (USD)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Cond. Venta</label>
+            <input id="paymentTerms" placeholder="50% adelanto / 50% contra entrega" />
+          </div>
+        </div>
+
+        <h3>Ítems</h3>
+        <div class="items">
+          <div class="items__header">
+            <div class="right">#</div>
+            <div>Nombre</div>
+            <div>Modelo</div>
+            <div>Marca</div>
+            <div class="right">Cant.</div>
+            <div>Un.</div>
+            <div class="right">Precio inc. IGV</div>
+            <div class="right">V. Vnta Total Inc IGV</div>
+            <div></div>
+          </div>
+
+          <div id="itemsBody" class="items__body"></div>
+
+          <div class="items__footer">
+            <button id="btnAddItem" class="btn btn--secondary" type="button">+ Agregar ítem</button>
+            <div class="taxbox">
+              <div class="field inline">
+                <label>IGV %</label>
+                <input id="taxRate" type="number" step="0.01" min="0" value="18" />
+              </div>
+              <div class="field inline">
+                <label>Descuento</label>
+                <input id="discount" type="number" step="0.01" min="0" value="0" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Condiciones adicionales</h3>
+        <div class="grid">
+          <div class="field">
+            <label>Garantía</label>
+            <input id="warranty" placeholder="12 meses" />
+          </div>
+          <div class="field span-2">
+            <label>Observaciones</label>
+            <textarea id="notes" rows="3" placeholder="Notas adicionales..."></textarea>
+          </div>
+        </div>
+
+        <h3>Cuenta bancaria (opcional)</h3>
+        <div class="grid">
+          <div class="field">
+            <label>Banco</label>
+            <input id="bankName" placeholder="BCP" />
+          </div>
+          <div class="field">
+            <label>Titular</label>
+            <input id="form_bankHolder" placeholder="DIGITAL TRADE GROUP" />
+          </div>
+          <div class="field">
+            <label>Cuenta</label>
+            <input id="form_bankAccount" placeholder="000-0000000000" />
+          </div>
+          <div class="field">
+            <label>CCI</label>
+            <input id="form_bankCCI" placeholder="000-000-00000000000-00" />
+          </div>
+        </div>
+      </form>
+
+      <p class="hint">
+        <!-- Consejo: revisa el “Preview” antes de generar. El PDF se crea a partir del diseño A4. -->
+      </p>
+    </section>
+
+    <section class="panel panel--preview">
+      <div class="previewTop">
+        <h2>Preview (PDF)</h2>
+        <div class="pill">A4</div>
+      </div>
+
+      <!-- This element is what we export to PDF -->
+      <div id="pdfRoot" class="sheet">
+        <div class="sheet__header">
+          <div class="sheet__brand">
+            <img class="sheet__logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
+            <div class="sheet__brandText">
+              <div class="sheet__brandName" id="sheetBrandName">DIGITAL TRADE GROUP</div>
+              <div class="sheet__brandContact">
+                <span id="sheetAddress">AV ABANCAY 291 - CERCADO DE LIMA</span>
+                <span class="sheet__separator">|</span>
+                <span id="sheetEmail">coldfrogstore.ventas@gmail.com</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sheet__meta">
+            <div class="metaBox">
+              <div class="metaBox__title" id="documentTitleLabel">COTIZACIÓN</div>
+              <div class="metaRow"><span>N°</span><strong id="p_quoteNo">—</strong></div>
+              <div class="metaRow"><span>Fecha</span><strong id="p_quoteDate">—</strong></div>
+              <div class="metaRow"><span>Validez</span><strong id="p_quoteValidity">—</strong></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet__divider"></div>
+
+        <div class="sheet__client">
+          <div class="clientGrid3">
+            <!-- Columna 1 -->
+            <div class="clientCol">
+              <div class="clientRow">
+                <div class="label" id="label_client">Señores:</div>
+                <div class="value" id="p_clientName">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Dirección:</div>
+                <div class="value" id="p_clientAddress">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">RUC:</div>
+                <div class="value" id="p_clientDoc">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Atención:</div>
+                <div class="value" id="p_clientAttn">—</div>
+              </div>
+            </div>
+
+            <!-- Columna 2 -->
+            <div class="clientCol">
+              <div class="clientRow">
+                <div class="label">Entrega:</div>
+                <div class="value" id="p_delivery">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Departamento:</div>
+                <div class="value" id="p_clientDepartment">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Distrito:</div>
+                <div class="value" id="p_clientDistrict">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Dirección:</div>
+                <div class="value">—</div>
+              </div>
+            </div>
+
+            <!-- Columna 3 -->
+            <div class="clientCol">
+              <div class="clientRow">
+                <div class="label">Moneda:</div>
+                <div class="value" id="p_currency">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Cond. Venta:</div>
+                <div class="value" id="p_paymentTerms">—</div>
+              </div>
+              <div class="clientRow">
+                <div class="label">Validez:</div>
+                <div class="value" id="p_quoteValidity">—</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sheet__table">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 5%;" class="right">#</th>
+                <th style="width: 27%;" id="label_item_header">Nombre</th>
+                <th style="width: 13%;">Modelo</th>
+                <th style="width: 11%;">Marca</th>
+                <th style="width: 7%;" class="right">Cant.</th>
+                <th style="width: 7%;">Un.</th>
+                <th style="width: 13%;" class="right">Precio Inc. IGV</th>
+                <th style="width: 17%;" class="right">V. Vnta Total Inc IGV</th>
+              </tr>
+            </thead>
+            <tbody id="p_itemsBody"></tbody>
+          </table>
+        </div>
+
+        <div class="sheet__payment-totals">
+          <div class="paymentMethods">
+            <h4>Métodos de pago</h4>
+
+            <div class="paymentLogos">
+              <div class="paymentGroup">
+                <p style="font-size: 11px; margin: 0 0 4px 0; color: #666;">niubiz:</p>
+                <div style="display: flex; gap: 4px; align-items: center;">
+                  <img src="assets/visa.jpg" alt="Visa" style="height: 24px; width: auto;">
+                  <img src="assets/mastercard.jpg" alt="Mastercard" style="height: 24px; width: auto;">
+                  <img src="assets/pagoefectivo.jpg" alt="PagoEfectivo"
+                    style="height: 20px; width: auto; margin-left: 4px;">
+                </div>
+              </div>
+            </div>
+
+            <div class="bankBox bankBox--static" style="margin-top: 12px;">
+              <img src="assets/bcp_logo.jpg" alt="BCP" class="bankBox__logo" id="bankLogo">
+              <div class="bankBox__info">
+                <div style="font-size: 10px; font-weight: 700;" id="bankAccount">CTA CORRIENTE BCP 1917234591075</div>
+                <div style="font-size: 10px; color: #666;" id="bankCCI">CCI 00219100723459107555</div>
+                <div style="font-size: 9px; font-weight: 700; margin-top: 2px;" id="bankHolder">DIGITAL WAVE IMPORTS SAC
+                </div>
+              </div>
+            </div>
+
+            <div class="benefits">
+              <img src="assets/benefits_new.png" alt="Beneficios"
+                style="max-width: 27.5%; height: auto; margin-top: 8px;">
+            </div>
+          </div>
+
+          <div class="totalBox">
+            <div class="totRow"><span>+ Flete:</span><strong id="p_flete">S/ 0.00</strong></div>
+            <div class="totRow totRow--grand"><span>Total Cotización:</span><strong id="p_total">—</strong></div>
+          </div>
+        </div>
+
+        <div class="sheet__footer">
+          <div class="sig">
+            <div class="sig__line"></div>
+            <div class="sig__name" id="footerBrandName">DIGITAL TRADE GROUP</div>
+            <!-- <div class="sig__label" id="footerBrandTag">TECHNOLOGY & IMPORTS</div> -->
+          </div>
+          <div class="footNote">
+            <!-- <div>Gracias por su preferencia.</div> -->
+
+          </div>
+        </div>
+
+        <div class="note">
+          <!-- Si quieres que el PDF calce 1:1 con tu modelo, podemos ajustar márgenes, tamaños de letra y secciones cuando me confirmes exactamente qué campos aparecen en tu formato final. -->
+        </div>
+    </section>
+  </main>
+
+  <!-- html2pdf (jsPDF + html2canvas) - Local version -->
+  <script src="html2pdf.bundle.min.js"></script>
+  <script src="app.js"></script>
+</body>
+
+</html>

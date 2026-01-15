@@ -1,0 +1,76 @@
+# COTIZADOR PDF - EJECUTABLE PARA WINDOWS
+
+## 📦 Contenido del Paquete
+
+Este ejecutable incluye:
+- Aplicación web completa de cotización
+- Servidor HTTP integrado
+- Todas las imágenes y assets necesarios
+- Abre automáticamente el navegador
+
+## 🚀 Cómo Usar
+
+### Opción 1: Ejecutable Simple (Recomendado)
+1. Descomprime el archivo ZIP
+2. Haz doble clic en `CotizadorPDF.exe`
+3. El navegador se abrirá automáticamente
+4. Comienza a crear tus cotizaciones
+
+### Opción 2: Con Acceso a Archivos
+1. Copia la carpeta completa a tu ubicación deseada
+2. Ejecuta `CotizadorPDF.exe`
+3. El servidor iniciará en http://127.0.0.1:8080
+
+## ⚙️ Características
+
+- ✅ No requiere instalación
+- ✅ Funciona sin conexión a Internet (excepto autocompletado de RUC)
+- ✅ Genera PDFs profesionales
+- ✅ Autocompletado de RUC desde SUNAT (NUEVO)
+- ✅ Datos del cliente en 3 columnas
+- ✅ Métodos de pago con logos
+- ✅ Información bancaria de BCP incluida
+- ✅ Cálculos automáticos de totales
+
+## 🛠️ Solución de Problemas
+
+### El navegador no se abre automáticamente
+- Abre manualmente tu navegador preferido
+- Navega a: http://127.0.0.1:8080
+
+### El puerto 8080 está ocupado
+- Cierra otras aplicaciones que puedan usar el puerto 8080
+- O usa otro navegador
+
+### Autocompletado de RUC
+- Ingresa un RUC válido (11 dígitos numéricos)
+- Espera 0.5 segundos y los datos se llenarán automáticamente
+- Si falla la consulta, puedes ingresar los datos manualmente
+- Requiere conexión a Internet para esta función
+
+### Windows Defender bloquea el ejecutable
+- Click en "Más información"
+- Click en "Ejecutar de todas formas"
+- Esto es normal para ejecutables no firmados
+
+## 📞 Soporte
+
+Para cualquier problema o consulta:
+- Desarrollado por: Digital Trade Group
+- Email: soporte@digitaltradegroup.com
+
+## 📝 Notas de Versión
+
+**Versión 1.1.0**
+- Autocompletado de RUC desde SUNAT
+- Construcción inteligente de direcciones
+- Proxy integrado para API
+- Diseño de 3 columnas para datos del cliente
+- Valores de cliente en negrita
+- Logo BCP con cuentas bancarias estáticas
+- Iconos de beneficios optimizados
+- Numeración automática de ítems
+
+---
+
+© 2026 Digital Trade Group - Technology & Imports
