@@ -6,7 +6,8 @@
   "bin": "server.js",
   "scripts": {
     "start": "node server.js",
-    "build": "pkg . --targets node18-win-x64 --output dist/CotizadorPDF.exe"
+    "build": "echo 'Build skipped for cloud deployment'",
+    "build:exe": "pkg . --targets node18-win-x64 --output dist/CotizadorPDF.exe"
   },
   "pkg": {
     "assets": [
@@ -18,7 +19,11 @@
     ],
     "outputPath": "dist"
   },
-  "keywords": ["cotizador", "pdf", "quotation"],
+  "keywords": [
+    "cotizador",
+    "pdf",
+    "quotation"
+  ],
   "author": "Digital Trade Group",
   "license": "ISC"
 }
