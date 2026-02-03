@@ -1,4 +1,4 @@
-const fetch = (...args) => import('node-fetch').then(({ default: fetch }) => fetch(...args));
+// Using native fetch (available in Node.js 18+ and Vercel)
 
 module.exports = async function handler(req, res) {
     const { ruc } = req.query;
