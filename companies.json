@@ -6,6 +6,7 @@
             "nombre_comercial": "DIGITAL TRADE GROUP",
             "tagline": "TECHNOLOGY & IMPORTS",
             "logo": "assets/logos/digital_trade.jpeg",
+            "celular": "915336150",
             "banco": "BCP",
             "cuenta": "1917234591075",
             "cci": "00219100723459107555",
@@ -15,7 +16,7 @@
             "documentTitle": "COTIZACIÓN",
             "labels": {
                 "client": "Señores:",
-                "itemHeader": "Nombre"
+                "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
                 "primary": "#002c77",
@@ -37,6 +38,7 @@
             "nombre_comercial": "COLDFROG STORE",
             "tagline": "Soluciones tecnológicas para todos",
             "logo": "assets/logos/coldfrog.jpeg",
+            "celular": "",
             "banco": "BBVA",
             "cuenta": "191 05832267 0 77",
             "cci": "002 19110583226707756",
@@ -46,7 +48,7 @@
             "documentTitle": "PROFORMA",
             "labels": {
                 "client": "Cliente:",
-                "itemHeader": "Producto"
+                "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
                 "primary": "#00b4d8",
@@ -69,6 +71,7 @@
             "nombre_comercial": "INTERLAB PERU INVERSIONES",
             "tagline": "",
             "logo": "assets/logos/interlab.jpeg",
+            "celular": "",
             "banco": "BBVA",
             "cuenta": "0011 0814 0272273 524",
             "cci": "011 814 000272273524 14",
@@ -78,7 +81,7 @@
             "documentTitle": "PROFORMA",
             "labels": {
                 "client": "Señores:",
-                "itemHeader": "Producto"
+                "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
                 "primary": "#1a472a",
@@ -101,6 +104,7 @@
             "nombre_comercial": "ICEBERG IMPORTS",
             "tagline": "",
             "logo": "assets/logos/iceberg.jpeg",
+            "celular": "",
             "banco": "BCP",
             "cuenta": "193 06347171 083",
             "cci": "002 193 10634717208316",
@@ -110,7 +114,7 @@
             "documentTitle": "COTIZACIÓN",
             "labels": {
                 "client": "Cliente:",
-                "itemHeader": "Nombre"
+                "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
                 "primary": "#1e3a5f",
@@ -133,6 +137,7 @@
             "nombre_comercial": "GLOBAL IMPORT ",
             "tagline": "",
             "logo": "assets/logos/global_import.jpeg",
+            "celular": "928376412",
             "banco": "BCP",
             "cuenta": "193 06347171 083",
             "cci": "00219119894482206257",
@@ -142,7 +147,7 @@
             "documentTitle": "COTIZACIÓN",
             "labels": {
                 "client": "Señores:",
-                "itemHeader": "Nombre"
+                "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
                 "primary": "#d62828",

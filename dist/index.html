@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Cotizador - Digital Trade Group</title>
+  <title>Cotizador V3.0 [BUILD 202602012300]</title>
 
   <!-- Google Fonts for Themes -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,7 +13,7 @@
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&family=Merriweather:wght@700&family=Open+Sans:wght@400&family=Montserrat:wght@600&family=Lato:wght@400&family=Raleway:wght@700&family=Inter:wght@400&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=202602012300" />
 
   <style>
     :root {
@@ -34,7 +34,12 @@
       <img class="brand__logo" id="brandLogo" src="assets/logo.jpeg" alt="Logo" />
       <div class="brand__text">
         <div class="brand__name" id="brandName">DIGITAL TRADE GROUP</div>
-        <div class="brand__tag" id="brandTag">TECHNOLOGY & IMPORTS</div>
+        <div style="display: flex; gap: 8px; align-items: center;">
+          <div class="brand__tag" id="brandTag">TECHNOLOGY & IMPORTS</div>
+          <span
+            style="font-size: 11px; background: #ff4d4d; color: white; padding: 2px 8px; border-radius: 4px; font-weight: 900; box-shadow: 0 0 10px rgba(255, 77, 77, 0.5);">V3.3
+            (PRO-01)</span>
+        </div>
       </div>
     </div>
     <div class="company-selector">
@@ -58,10 +63,6 @@
           <div class="field">
             <label>N° Cotización</label>
             <input id="quoteNo" required placeholder="A-000000" />
-          </div>
-          <div class="field">
-            <label>Validez</label>
-            <input id="quoteValidity" placeholder="7 días" />
           </div>
           <div class="field">
             <label>Fecha</label>
@@ -121,8 +122,8 @@
             <div>Marca</div>
             <div class="right">Cant.</div>
             <div>Un.</div>
-            <div class="right">Precio inc. IGV</div>
-            <div class="right">V. Vnta Total Inc IGV</div>
+            <div class="right">Precio</div>
+            <div class="right">Total</div>
             <div></div>
           </div>
 
@@ -142,43 +143,11 @@
             </div>
           </div>
         </div>
-
-        <h3>Condiciones adicionales</h3>
-        <div class="grid">
-          <div class="field">
-            <label>Garantía</label>
-            <input id="warranty" placeholder="12 meses" />
-          </div>
-          <div class="field span-2">
-            <label>Observaciones</label>
-            <textarea id="notes" rows="3" placeholder="Notas adicionales..."></textarea>
-          </div>
-        </div>
-
-        <h3>Cuenta bancaria (opcional)</h3>
-        <div class="grid">
-          <div class="field">
-            <label>Banco</label>
-            <input id="bankName" placeholder="BCP" />
-          </div>
-          <div class="field">
-            <label>Titular</label>
-            <input id="form_bankHolder" placeholder="DIGITAL TRADE GROUP" />
-          </div>
-          <div class="field">
-            <label>Cuenta</label>
-            <input id="form_bankAccount" placeholder="000-0000000000" />
-          </div>
-          <div class="field">
-            <label>CCI</label>
-            <input id="form_bankCCI" placeholder="000-000-00000000000-00" />
-          </div>
-        </div>
       </form>
 
-      <p class="hint">
-        <!-- Consejo: revisa el “Preview” antes de generar. El PDF se crea a partir del diseño A4. -->
-      </p>
+      <div style="text-align: right; margin-top: 10px; font-size: 10px; color: #667085; opacity: 0.7;">
+        v2.2 (Actualización 1 de Feb)
+      </div>
     </section>
 
     <section class="panel panel--preview">
@@ -195,9 +164,8 @@
             <div class="sheet__brandText">
               <div class="sheet__brandName" id="sheetBrandName">DIGITAL TRADE GROUP</div>
               <div class="sheet__brandContact">
-                <span id="sheetAddress">AV ABANCAY 291 - CERCADO DE LIMA</span>
-                <span class="sheet__separator">|</span>
-                <span id="sheetEmail">coldfrogstore.ventas@gmail.com</span>
+                <div id="sheetContactInfo"></div>
+                <div id="sheetEmail"></div>
               </div>
             </div>
           </div>
@@ -207,7 +175,6 @@
               <div class="metaBox__title" id="documentTitleLabel">COTIZACIÓN</div>
               <div class="metaRow"><span>N°</span><strong id="p_quoteNo">—</strong></div>
               <div class="metaRow"><span>Fecha</span><strong id="p_quoteDate">—</strong></div>
-              <div class="metaRow"><span>Validez</span><strong id="p_quoteValidity">—</strong></div>
             </div>
           </div>
         </div>
@@ -216,15 +183,11 @@
 
         <div class="sheet__client">
           <div class="clientGrid3">
-            <!-- Columna 1 -->
+            <!-- Columna 1: Datos básicos -->
             <div class="clientCol">
               <div class="clientRow">
                 <div class="label" id="label_client">Señores:</div>
                 <div class="value" id="p_clientName">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Dirección:</div>
-                <div class="value" id="p_clientAddress">—</div>
               </div>
               <div class="clientRow">
                 <div class="label">RUC:</div>
@@ -236,11 +199,11 @@
               </div>
             </div>
 
-            <!-- Columna 2 -->
+            <!-- Columna 2: Ubicación -->
             <div class="clientCol">
               <div class="clientRow">
-                <div class="label">Entrega:</div>
-                <div class="value" id="p_delivery">—</div>
+                <div class="label">Dirección:</div>
+                <div class="value" id="p_clientAddress">—</div>
               </div>
               <div class="clientRow">
                 <div class="label">Departamento:</div>
@@ -250,14 +213,14 @@
                 <div class="label">Distrito:</div>
                 <div class="value" id="p_clientDistrict">—</div>
               </div>
-              <div class="clientRow">
-                <div class="label">Dirección:</div>
-                <div class="value">—</div>
-              </div>
             </div>
 
-            <!-- Columna 3 -->
+            <!-- Columna 3: Datos comerciales -->
             <div class="clientCol">
+              <div class="clientRow">
+                <div class="label">Entrega:</div>
+                <div class="value" id="p_delivery">—</div>
+              </div>
               <div class="clientRow">
                 <div class="label">Moneda:</div>
                 <div class="value" id="p_currency">—</div>
@@ -265,10 +228,6 @@
               <div class="clientRow">
                 <div class="label">Cond. Venta:</div>
                 <div class="value" id="p_paymentTerms">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Validez:</div>
-                <div class="value" id="p_quoteValidity">—</div>
               </div>
             </div>
           </div>
@@ -278,14 +237,12 @@
           <table>
             <thead>
               <tr>
-                <th style="width: 5%;" class="right">#</th>
-                <th style="width: 27%;" id="label_item_header">Nombre</th>
-                <th style="width: 13%;">Modelo</th>
-                <th style="width: 11%;">Marca</th>
-                <th style="width: 7%;" class="right">Cant.</th>
-                <th style="width: 7%;">Un.</th>
-                <th style="width: 13%;" class="right">Precio Inc. IGV</th>
-                <th style="width: 17%;" class="right">V. Vnta Total Inc IGV</th>
+                <th style="width: 15%;" class="center">IMG</th>
+                <th style="width: 42%;" id="label_item_header">DESCRIPCIÓN</th>
+                <th style="width: 9%;" class="right">CANT.</th>
+                <th style="width: 8%;">UN.</th>
+                <th style="width: 13%;" class="right">PRECIO</th>
+                <th style="width: 13%;" class="right">TOTAL</th>
               </tr>
             </thead>
             <tbody id="p_itemsBody"></tbody>
@@ -325,7 +282,9 @@
           </div>
 
           <div class="totalBox">
-            <div class="totRow"><span>+ Flete:</span><strong id="p_flete">S/ 0.00</strong></div>
+            <div class="totRow"><span>Subtotal (sin IGV):</span><strong id="p_subtotal">—</strong></div>
+            <div class="totRow"><span>+ IGV (<span id="p_tax_rate">18</span>%):</span><strong id="p_igv">—</strong>
+            </div>
             <div class="totRow totRow--grand"><span>Total Cotización:</span><strong id="p_total">—</strong></div>
           </div>
         </div>
@@ -350,7 +309,7 @@
 
   <!-- html2pdf (jsPDF + html2canvas) - Local version -->
   <script src="html2pdf.bundle.min.js"></script>
-  <script src="app.js"></script>
+  <script src="app.js?v=202602012300"></script>
 </body>
 
 </html>

@@ -35,51 +35,151 @@ const server = http.createServer((req, res) => {
     // Proxy endpoint for RUC API to avoid CORS
     if (req.url.startsWith('/api/ruc/')) {
         const ruc = req.url.replace('/api/ruc/', '').split('?')[0];
-
         const https = require('https');
-        const apiUrl = `https://api.decolecta.com/v1/sunat/ruc/full?numero=${ruc}`;
-        const token = 'sk_12666.6kGbUsUQQreOfJxTEhdVE9qJ1dmuFR5q';
 
-        const options = {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-                'Authorization': `Bearer ${token}`
-            }
+        // Function to try decolecta API (with full data)
+        const tryDecolecta = () => {
+            return new Promise((resolve, reject) => {
+                const apiUrl = `https://api.decolecta.com/v1/sunat/ruc/full?numero=${ruc}`;
+                const token = 'sk_12666.QHtvrYeLy5bhexkDFkVRIhJZg5mhOMLb';
+
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                };
+
+                const proxyReq = https.request(apiUrl, options, (proxyRes) => {
+                    let data = '';
+
+                    proxyRes.on('data', (chunk) => {
+                        data += chunk;
+                    });
+
+                    proxyRes.on('end', () => {
+                        if (proxyRes.statusCode === 200) {
+                            resolve({ success: true, data: data, statusCode: 200 });
+                        } else {
+                            reject({ success: false, statusCode: proxyRes.statusCode });
+                        }
+                    });
+                });
+
+                proxyReq.on('error', (error) => {
+                    reject({ success: false, error: error.message });
+                });
+
+                proxyReq.end();
+            });
         };
 
-        const proxyReq = https.request(apiUrl, options, (proxyRes) => {
-            let data = '';
+        // Function to try consultaruc.win API (fallback, basic data only)
+        const tryConsultaruc = () => {
+            return new Promise((resolve, reject) => {
+                const apiUrl = `https://consultaruc.win/api/ruc/${ruc}`;
 
-            proxyRes.on('data', (chunk) => {
-                data += chunk;
+                const options = {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'User-Agent': 'Mozilla/5.0'
+                    }
+                };
+
+                const proxyReq = https.request(apiUrl, options, (proxyRes) => {
+                    let data = '';
+
+                    proxyRes.on('data', (chunk) => {
+                        data += chunk;
+                    });
+
+                    proxyRes.on('end', () => {
+                        if (proxyRes.statusCode === 200) {
+                            resolve({ success: true, data: data, statusCode: 200 });
+                        } else {
+                            reject({ success: false, statusCode: proxyRes.statusCode });
+                        }
+                    });
+                });
+
+                proxyReq.on('error', (error) => {
+                    reject({ success: false, error: error.message });
+                });
+
+                proxyReq.end();
             });
+        };
 
-            proxyRes.on('end', () => {
-                res.writeHead(proxyRes.statusCode, {
+        // Try decolecta first, fallback to consultaruc if it fails
+        tryDecolecta()
+            .then(result => {
+                console.log('✓ RUC data fetched from decolecta.com (full data)');
+                res.writeHead(result.statusCode, {
                     'Content-Type': 'application/json',
                     'Access-Control-Allow-Origin': '*'
                 });
-                res.end(data);
+                res.end(result.data);
+            })
+            .catch(error => {
+                console.log('✗ Decolecta failed, trying consultaruc.win fallback...');
+                return tryConsultaruc()
+                    .then(result => {
+                        console.log('✓ RUC data fetched from consultaruc.win (basic data)');
+                        res.writeHead(result.statusCode, {
+                            'Content-Type': 'application/json',
+                            'Access-Control-Allow-Origin': '*'
+                        });
+                        res.end(result.data);
+                    })
+                    .catch(fallbackError => {
+                        console.log('✗ Both APIs failed');
+                        res.writeHead(404, { 'Content-Type': 'application/json' });
+                        res.end(JSON.stringify({
+                            error: 'No se pudo obtener información del RUC',
+                            details: 'Ambas APIs fallaron'
+                        }));
+                    });
             });
-        });
 
-        proxyReq.on('error', (error) => {
-            res.writeHead(500, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify({ error: error.message }));
-        });
-
-        proxyReq.end();
         return;
     }
 
-    let filePath = req.url === '/' ? '/index.html' : req.url;
-    filePath = path.join(basePath, filePath);
+    // Unified file resolution logic for standalone executable
+    let urlPath = req.url.split('?')[0];
+    let filePath = urlPath === '/' ? '/index.html' : urlPath;
+    const relativePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
 
-    const extname = String(path.extname(filePath)).toLowerCase();
+    const internalPath = path.join(__dirname, relativePath);
+    const externalPath = process.pkg ? path.join(path.dirname(process.execPath), relativePath) : internalPath;
+
+    // Logic: 
+    // 1. If it's companies.json, prioritize EXTERNAL first (so user can edit it)
+    // 2. For everything else, prioritize INTERNAL snaphot first (standalone reliability)
+    // 3. Fallback to whatever exists.
+
+    let finalPath = internalPath;
+
+    if (relativePath === 'companies.json') {
+        if (fs.existsSync(externalPath)) {
+            finalPath = externalPath;
+        } else {
+            finalPath = internalPath;
+        }
+    } else {
+        // Core files: Try internal (snaphot) first
+        if (fs.existsSync(internalPath)) {
+            finalPath = internalPath;
+        } else if (fs.existsSync(externalPath)) {
+            finalPath = externalPath;
+        }
+    }
+
+    const extname = String(path.extname(finalPath)).toLowerCase();
     const contentType = mimeTypes[extname] || 'application/octet-stream';
 
-    fs.readFile(filePath, (error, content) => {
+    fs.readFile(finalPath, (error, content) => {
         if (error) {
             if (error.code === 'ENOENT') {
                 res.writeHead(404, { 'Content-Type': 'text/html' });
@@ -100,7 +200,8 @@ server.listen(PORT, HOST, () => {
     console.log('═════════════════════════════════════════════════════');
     console.log('  COTIZADOR PDF - DIGITAL TRADE GROUP');
     console.log('═════════════════════════════════════════════════════');
-    console.log(`\n✓ Servidor iniciado en: ${url}`);
+    console.log(`✓ Servidor iniciado en: ${url}`);
+    console.log(`✓ Build ID: 2026-02-03-0140 (V3.3-FINAL-FIX)`);
     console.log('\nAbriendo navegador...\n');
     console.log('Presiona Ctrl+C para detener el servidor\n');
     console.log('═════════════════════════════════════════════════════');

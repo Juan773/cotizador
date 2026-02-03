@@ -1,0 +1,225 @@
+================================================
+  COTIZADOR PDF - Versión 2.0 para Windows
+================================================
+
+✨ NUEVO - Versión actualizada con mejoras y correcciones
+
+📦 CONTENIDO
+============
+Este paquete contiene TODO lo necesario para generar cotizaciones en PDF.
+NO requiere instalación de Node.js.
+
+Archivos incluidos:
+- CotizadorPDF-v2.exe   -> Ejecutable principal (incluye Node.js)
+- index.html            -> Interfaz de usuario ACTUALIZADA
+- app.js                -> Lógica de la aplicación CORREGIDA
+- styles.css            -> Estilos MEJORADOS
+- companies.json        -> Configuración de empresas
+- assets/               -> Carpeta con logos y recursos
+- html2pdf.bundle.min.js -> Librería para generar PDF
+
+🚀 INSTRUCCIONES DE USO (SÚPER FÁCIL)
+======================================
+
+1. EXTRAER EL ZIP
+   --------------
+   - Click derecho en "CotizadorPDF-Windows-v2-FINAL.zip"
+   - Seleccionar "Extraer todo..."
+   - Elegir una carpeta de destino
+   - Click en "Extraer"
+
+2. EJECUTAR LA APLICACIÓN
+   -----------------------
+   - Buscar el archivo "CotizadorPDF-v2.exe"
+   - Hacer DOBLE CLICK sobre él
+   - Esperar 2-3 segundos
+
+   ⚠️ IMPORTANTE: Si Windows muestra "Windows protegió su PC":
+      1. Click en "Más información"
+      2. Click en "Ejecutar de todas formas"
+      (Esto es normal para ejecutables no firmados)
+
+3. USAR LA APLICACIÓN
+   -------------------
+   - Se abrirá automáticamente tu navegador
+   - Dirección: http://localhost:8080
+   - ¡Ya puedes empezar a crear cotizaciones!
+
+4. CREAR UNA COTIZACIÓN
+   --------------------
+   a) Seleccionar la empresa del dropdown
+   b) Completar datos del cliente
+   c) Agregar productos/servicios con "+ Agregar ítem"
+   d) Ver vista previa en tiempo real (lado derecho)
+   e) Click en "Generar PDF" para descargar
+
+5. CERRAR LA APLICACIÓN
+   ---------------------
+   - Cerrar la ventana negra de consola
+   - O presionar Ctrl+C en la consola
+
+✨ NOVEDADES V2.0 (MEJORAS IMPORTANTES)
+=======================================
+
+✅ LAYOUT DE ÍTEMS MEJORADO
+   - Los productos ahora se muestran en tarjetas verticales
+   - Más fácil de leer y completar
+   - Etiquetas claras para cada campo
+   - Mejor organización visual
+
+✅ INFORMACIÓN DEL CLIENTE REORGANIZADA
+   Columna 1 - Datos básicos:
+   • Señores (nombre del cliente)
+   • RUC
+   • Atención
+
+   Columna 2 - Ubicación:
+   • Dirección
+   • Departamento
+   • Distrito
+
+   Columna 3 - Datos comerciales:
+   • Entrega
+   • Moneda
+   • Condiciones de Venta
+
+✅ TEXTO LARGO AJUSTADO AUTOMÁTICAMENTE
+   - Las descripciones largas ahora se ajustan con salto de línea
+   - No más texto cortado en el PDF
+   - Presentación más profesional
+
+✅ INTERFAZ SIMPLIFICADA
+   - Eliminados campos innecesarios
+   - Formulario más limpio y directo
+   - Enfoque en lo esencial
+
+✅ BUGS CORREGIDOS
+   - Botón "+ Agregar ítem" ahora funciona correctamente
+   - Sin errores JavaScript
+   - Rendimiento mejorado
+
+🏢 GESTIÓN DE EMPRESAS
+=======================
+
+EMPRESAS INCLUIDAS:
+- Digital Trade Group
+- Iceberg
+- Interlab
+- Global Import
+- Cold Frog
+
+AGREGAR NUEVA EMPRESA:
+1. Abrir "companies.json" con Notepad++ o similar
+2. Copiar una empresa existente
+3. Modificar los datos:
+   {
+     "ruc": "20123456789",
+     "name": "MI EMPRESA SAC",
+     "address": "Av. Principal 123, Lima",
+     "email": "ventas@miempresa.com",
+     "logo": "/assets/logos/mi_logo.jpeg",
+     ...
+   }
+4. Agregar logo en carpeta "assets/logos/"
+5. Guardar y reiniciar el ejecutable
+
+🔧 SOLUCIÓN DE PROBLEMAS
+=========================
+
+❌ PROBLEMA: "El puerto 8080 está ocupado"
+   SOLUCIÓN: 
+   - Cerrar otras aplicaciones que usen ese puerto
+   - Reiniciar el ejecutable
+
+❌ PROBLEMA: "No se puede generar el PDF"
+   SOLUCIÓN:
+   - Presionar Ctrl+Shift+R en el navegador (limpiar caché)
+   - Completar todos los campos obligatorios
+   - Verificar que haya al menos 1 ítem agregado
+
+❌ PROBLEMA: "El navegador no se abre automáticamente"
+   SOLUCIÓN:
+   - Abrir manualmente: http://localhost:8080
+   - Verificar que el .exe siga corriendo (ventana negra visible)
+
+❌ PROBLEMA: "Cambios en companies.json no se reflejan"
+   SOLUCIÓN:
+   - Cerrar COMPLETAMENTE el ejecutable
+   - Reiniciar el .exe
+   - Limpiar caché del navegador (Ctrl+Shift+R)
+
+❌ PROBLEMA: "Mi antivirus bloquea el ejecutable"
+   SOLUCIÓN:
+   - Agregar excepción en el antivirus para CotizadorPDF-v2.exe
+   - El archivo es seguro, algunos antivirus lo marcan por falso positivo
+
+💡 CONSEJOS Y TRUCOS
+====================
+
+✓ GUARDAR CONFIGURACIONES:
+  Los datos se guardan automáticamente en tu navegador
+  mientras mantengas la pestaña abierta.
+
+✓ MÚLTIPLES COTIZACIONES:
+  Puedes generar varios PDFs sin cerrar la aplicación,
+  solo limpia el formulario con el botón "Limpiar".
+
+✓ PERSONALIZACIÓN:
+  Puedes editar los archivos .css y .html para personalizar
+  el diseño según tus necesidades.
+
+✓ COPIAS DE SEGURIDAD:
+  Recomendamos hacer una copia de "companies.json" después
+  de agregar tus empresas personalizadas.
+
+📊 REQUISITOS DEL SISTEMA
+==========================
+
+Sistema Operativo:
+- Windows 7 SP1 o superior (64-bit)
+- Windows 10/11 recomendado
+
+Hardware:
+- 100 MB de espacio en disco
+- 2 GB RAM mínimo
+- 4 GB RAM recomendado
+
+Software:
+- Navegador moderno actualizado:
+  • Google Chrome (recomendado)
+  • Microsoft Edge
+  • Mozilla Firefox
+
+Red:
+- Puerto 8080 disponible
+- No requiere conexión a internet para funcionar
+
+🆚 COMPARACIÓN CON VERSIÓN ANTERIOR
+====================================
+
+Característica               | v1.0  | v2.0
+---------------------------- | ----- | ----
+Layout de ítems              | Tabla | Tarjetas ✓
+Campos cliente organizados   | No    | Sí ✓
+Texto largo se ajusta        | No    | Sí ✓
+Bug agregar ítem             | Sí    | Corregido ✓
+Interfaz simplificada        | No    | Sí ✓
+Rendimiento                  | Bueno | Mejor ✓
+
+📞 SOPORTE Y AYUDA
+==================
+
+Si tienes problemas o preguntas:
+
+1. Revisa la sección "SOLUCIÓN DE PROBLEMAS" arriba
+2. Verifica que Windows y tu navegador estén actualizados
+3. Contacta al administrador del sistema
+
+---
+Versión: 2.0 FINAL
+Fecha de actualización: Febrero 2026
+Tamaño del paquete: ~15 MB
+Plataforma: Windows x64
+
+Desarrollado con ❤️ para optimizar tu flujo de trabajo
+================================================

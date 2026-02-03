@@ -7,7 +7,7 @@ module.exports = async function handler(req, res) {
         return res.status(400).json({ error: 'RUC is required' });
     }
 
-    const token = 'sk_12666.6kGbUsUQQreOfJxTEhdVE9qJ1dmuFR5q';
+    const token = 'sk_12666.QHtvrYeLy5bhexkDFkVRIhJZg5mhOMLb';
     const apiUrl = `https://api.decolecta.com/v1/sunat/ruc/full?numero=${ruc}`;
 
     try {

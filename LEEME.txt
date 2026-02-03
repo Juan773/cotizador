@@ -61,15 +61,13 @@ Para cualquier problema o consulta:
 
 ## 📝 Notas de Versión
 
-**Versión 1.1.0**
-- Autocompletado de RUC desde SUNAT
-- Construcción inteligente de direcciones
-- Proxy integrado para API
-- Diseño de 3 columnas para datos del cliente
-- Valores de cliente en negrita
-- Logo BCP con cuentas bancarias estáticas
-- Iconos de beneficios optimizados
-- Numeración automática de ítems
+**Versión 3.1.0**
+- 🆕 Cabecera de PDF multilínea (RUC y Celular por separado)
+- 🆕 Etiquetas "RUC:" y "CEL:" en los datos de la empresa
+- ✅ Autocompletado de RUC desde SUNAT mejorado
+- ✅ Rediseño de 3 columnas para datos del cliente
+- ✅ BCP y otros bancos integrados dinámicamente
+- ✅ Iconos y logos actualizados
 
 ---
 

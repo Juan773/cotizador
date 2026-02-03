@@ -92,7 +92,7 @@
     if (labelClientRel) labelClientRel.textContent = labels.client || "Señores:";
 
     const labelItemRel = document.getElementById('label_item_header');
-    if (labelItemRel) labelItemRel.textContent = labels.itemHeader || "Nombre";
+    if (labelItemRel) labelItemRel.textContent = labels.itemHeader || "DESCRIPCIÓN";
 
     // Set Theme Variables
     root.style.setProperty('--theme-primary', t.primary);
@@ -164,12 +164,20 @@
     // Update PDF preview logo and name
     const sheetLogo = $("sheetLogo");
     const sheetBrandName = $("sheetBrandName");
-    const sheetAddress = $("sheetAddress");
+    const sheetContactInfo = $("sheetContactInfo");
     const sheetEmail = $("sheetEmail");
 
     if (sheetLogo) sheetLogo.src = c.logo;
     if (sheetBrandName) sheetBrandName.textContent = c.nombre_comercial;
-    if (sheetAddress) sheetAddress.textContent = c.direccion || '';
+
+    // Update PDF header contact info (RUC and Celular instead of address)
+    if (sheetContactInfo) {
+      let contactHtml = `<div>RUC: ${c.ruc}</div>`;
+      if (c.celular && c.celular.trim().length > 0) {
+        contactHtml += `<div>CEL: ${c.celular}</div>`;
+      }
+      sheetContactInfo.innerHTML = contactHtml;
+    }
     if (sheetEmail) sheetEmail.textContent = c.correo || '';
 
     // Update footer signature
@@ -248,7 +256,8 @@
       marca: prefill?.marca ?? "",
       cant: prefill?.cant ?? 1,
       priceIncIGV: prefill?.priceIncIGV ?? 0,
-      unit: prefill?.unit ?? "UND"
+      unit: prefill?.unit ?? "UND",
+      image: prefill?.image ?? null
     };
     state.items.push(item);
     renderItems();
@@ -261,6 +270,49 @@
     syncPreview();
   }
 
+  function handleImageUpload(file, itemIndex) {
+    if (!file || !file.type.startsWith('image/')) {
+      alert('Por favor selecciona un archivo de imagen válido (JPG, PNG, etc.)');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const img = new Image();
+      img.onload = () => {
+        // Redimensionar imagen a máximo 100x100px manteniendo proporción
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+
+        const maxSize = 100;
+        let width = img.width;
+        let height = img.height;
+
+        if (width > height && width > maxSize) {
+          height = (height / width) * maxSize;
+          width = maxSize;
+        } else if (height > maxSize) {
+          width = (width / height) * maxSize;
+          height = maxSize;
+        }
+
+        canvas.width = width;
+        canvas.height = height;
+        ctx.drawImage(img, 0, 0, width, height);
+
+        // Convertir a base64
+        const dataUrl = canvas.toDataURL('image/jpeg', 0.8);
+
+        // Actualizar item
+        state.items[itemIndex].image = dataUrl;
+        renderItems();
+        syncPreview();
+      };
+      img.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
   function renderItems() {
     const body = $("itemsBody");
     body.innerHTML = "";
@@ -270,24 +322,87 @@
       row.className = "itemRow";
 
       row.innerHTML = `
-        <div class="right" style="padding:10px 6px; color:var(--muted); font-weight:700;">${idx + 1}</div>
-        <input data-k="desc" data-i="${idx}" placeholder="Descripción del producto/servicio" value="${escapeHtml(it.desc)}" />
-        <input data-k="modelo" data-i="${idx}" placeholder="Modelo" value="${escapeHtml(it.modelo)}" />
-        <input data-k="marca" data-i="${idx}" placeholder="Marca" value="${escapeHtml(it.marca)}" />
-        <input data-k="cant" data-i="${idx}" type="number" min="0" step="0.01" class="right" value="${escapeHtml(it.cant)}" />
-        <input data-k="priceIncIGV" data-i="${idx}" type="number" min="0" step="0.01" class="right" value="${escapeHtml(it.priceIncIGV)}" />
-        <input data-k="unit" data-i="${idx}" placeholder="UND" value="${escapeHtml(it.unit)}" />
-        <input disabled class="right importe-field" data-i="${idx}" value="${(toNumber(it.cant) * toNumber(it.priceIncIGV)).toFixed(2)}" />
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <div style="font-weight: 700; color: var(--muted); font-size: 14px;">Ítem #${idx + 1}</div>
+        </div>
+        <div class="field">
+          <label>Imagen (opcional)</label>
+          <div class="image-upload">
+            ${it.image ? `
+              <img src="${it.image}" alt="Imagen del ítem" class="item-thumbnail" />
+              <button class="btnRemoveImage" data-i="${idx}" type="button" title="Eliminar imagen">✕ Eliminar</button>
+            ` : `
+              <input type="file" accept="image/*" class="imageInput" data-i="${idx}" />
+              <span style="font-size: 11px; color: #667085;">JPG, PNG - Máx 5MB</span>
+            `}
+          </div>
+        </div>
+        <div class="field">
+          <label>Descripción</label>
+          <input data-k="desc" data-i="${idx}" placeholder="Descripción del producto/servicio" value="${escapeHtml(it.desc)}" />
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="field">
+            <label>Modelo</label>
+            <input data-k="modelo" data-i="${idx}" placeholder="Modelo" value="${escapeHtml(it.modelo)}" />
+          </div>
+          <div class="field">
+            <label>Marca</label>
+            <input data-k="marca" data-i="${idx}" placeholder="Marca" value="${escapeHtml(it.marca)}" />
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="field">
+            <label>Cantidad</label>
+            <input data-k="cant" data-i="${idx}" type="number" min="0" step="0.01" value="${escapeHtml(it.cant)}" />
+          </div>
+          <div class="field">
+            <label>Unidad</label>
+            <input data-k="unit" data-i="${idx}" placeholder="UND" value="${escapeHtml(it.unit)}" />
+          </div>
+        </div>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+          <div class="field">
+            <label>Precio</label>
+            <input data-k="priceIncIGV" data-i="${idx}" type="number" min="0" step="0.01" value="${escapeHtml(it.priceIncIGV)}" />
+          </div>
+          <div class="field">
+            <label>Total</label>
+            <input disabled class="importe-field" data-i="${idx}" value="${(toNumber(it.cant) * toNumber(it.priceIncIGV)).toFixed(2)}" />
+          </div>
+        </div>
         <button class="btnDel" type="button" title="Eliminar">✕</button>
       `;
 
       row.querySelector(".btnDel").addEventListener("click", () => removeItem(idx));
 
+      // Handle image input
+      const imageInput = row.querySelector('.imageInput');
+      if (imageInput) {
+        imageInput.addEventListener('change', (e) => {
+          const file = e.target.files[0];
+          if (file) {
+            handleImageUpload(file, idx);
+          }
+        });
+      }
+
+      // Handle image removal
+      const btnRemoveImage = row.querySelector('.btnRemoveImage');
+      if (btnRemoveImage) {
+        btnRemoveImage.addEventListener('click', () => {
+          state.items[idx].image = null;
+          renderItems();
+          syncPreview();
+        });
+      }
+
       row.querySelectorAll("input[data-k]").forEach(inp => {
         inp.addEventListener("input", (e) => {
           const k = e.target.getAttribute("data-k");
           const i = Number(e.target.getAttribute("data-i"));
-          state.items[i][k] = (k === "desc" || k === "unit" || k === "marca" || k === "modelo") ? e.target.value : toNumber(e.target.value);
+          const isStringField = ["desc", "unit", "modelo", "marca"].includes(k);
+          state.items[i][k] = isStringField ? e.target.value : toNumber(e.target.value);
 
           // Only update the importe field for this row, don't re-render everything
           if (k === "cant" || k === "priceIncIGV") {
@@ -344,9 +459,26 @@
         throw new Error(`API error: ${response.status}`);
       }
 
-      const data = await response.json();
+      const apiResponse = await response.json();
 
-      // Autocomplete fields if data is available
+      // Handle both API formats:
+      // 1. Decolecta API: { razon_social, direccion, departamento, ... }
+      // 2. Consultaruc API: { response: true, result: { razon_social, estado, condicion } }
+      let data;
+
+      if (apiResponse.result && apiResponse.response) {
+        // consultaruc.win format (fallback API)
+        data = apiResponse.result;
+        console.log('Using consultaruc.win data (basic info only)');
+      } else if (apiResponse.razon_social) {
+        // decolecta.com format (primary API with full data)
+        data = apiResponse;
+        console.log('Using decolecta.com data (full info)');
+      } else {
+        throw new Error('No se encontró información para este RUC');
+      }
+
+      // Autocomplete name field (available in both APIs)
       if (data && data.razon_social) {
         const clientNameInput = $("clientName");
         if (clientNameInput) {
@@ -355,8 +487,8 @@
         }
       }
 
-      // Build complete address from API fields
-      if (data) {
+      // Address fields (only available in decolecta API)
+      if (data && data.direccion) {
         const addressInput = $("clientAddress");
         if (addressInput) {
           let fullAddress = '';
@@ -392,12 +524,12 @@
             }
           }
 
-          // Always update the field, even if empty (user can still fill manually)
           addressInput.value = fullAddress;
           addressInput.dispatchEvent(new Event('input', { bubbles: true }));
         }
       }
 
+      // Department field (only available in decolecta API)
       if (data && data.departamento) {
         const deptInput = $("clientDepartment");
         if (deptInput) {
@@ -406,6 +538,7 @@
         }
       }
 
+      // District field (only available in decolecta API)
       if (data && data.distrito) {
         const districtInput = $("clientDistrict");
         if (districtInput) {
@@ -426,7 +559,6 @@
     // Meta
     setText("p_quoteNo", $("quoteNo").value);
     setText("p_quoteDate", $("quoteDate").value ? $("quoteDate").value.split("-").reverse().join("/") : "");
-    setText("p_quoteValidity", $("quoteValidity").value);
 
     // Cliente
     setText("p_clientName", $("clientName").value);
@@ -440,8 +572,6 @@
     // Condiciones
     setText("p_paymentTerms", $("paymentTerms").value);
     setText("p_delivery", $("delivery").value);
-    setText("p_warranty", $("warranty").value);
-    setText("p_notes", $("notes").value);
 
 
 
@@ -457,10 +587,22 @@
         const amount = toNumber(it.cant) * toNumber(it.priceIncIGV);
         const tr = document.createElement("tr");
         tr.innerHTML = `
-          <td class="right">${idx + 1}</td>
-          <td>${escapeHtml(it.desc || "")}</td>
-          <td>${escapeHtml(it.modelo || "")}</td>
-          <td>${escapeHtml(it.marca || "")}</td>
+          <td class="item-image-cell">
+            ${it.image ?
+            `<img src="${it.image}" alt="Ítem ${idx + 1}" class="preview-thumbnail" />` :
+            `<span class="item-number">${idx + 1}</span>`
+          }
+          </td>
+          <td>
+            <div style="font-weight: 700;">${escapeHtml(it.desc || "")}</div>
+            ${it.modelo || it.marca ? `
+              <div style="font-size: 11px; color: #475467; margin-top: 2px;">
+                ${it.modelo ? `<span>Mod: ${escapeHtml(it.modelo)}</span>` : ""}
+                ${it.modelo && it.marca ? `<span style="margin: 0 4px;">|</span>` : ""}
+                ${it.marca ? `<span>Marca: ${escapeHtml(it.marca)}</span>` : ""}
+              </div>
+            ` : ""}
+          </td>
           <td class="right">${escapeHtml(it.cant)}</td>
           <td>${escapeHtml(it.unit || "")}</td>
           <td class="right">${fmtMoney(it.priceIncIGV)}</td>
@@ -472,6 +614,9 @@
 
     // Totals
     const t = computeTotals();
+    $("p_subtotal").textContent = fmtMoney(t.subtotal);
+    $("p_tax_rate").textContent = $("taxRate").value;
+    $("p_igv").textContent = fmtMoney(t.tax);
     $("p_total").textContent = fmtMoney(t.total);
   }
 

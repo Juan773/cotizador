@@ -235,28 +235,50 @@ body {
   overflow: hidden
 }
 
-.items__header,
-.itemRow {
-  display: grid;
-  grid-template-columns: 40px .6fr 1.6fr .6fr .6fr .6fr .5fr .7fr .7fr 36px;
-  gap: 8px;
-  align-items: center;
-  padding: 10px;
-}
-
 .items__header {
-  background: rgba(255, 255, 255, .04);
-  color: var(--muted);
-  font-size: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, .06);
+  display: none;
+  /* Hide header since we'll show labels per item */
 }
 
 .items__body {
-  padding: 6px
+  padding: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
 .itemRow {
-  padding: 8px 10px
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 16px;
+  background: rgba(255, 255, 255, .02);
+  border: 1px solid rgba(255, 255, 255, .08);
+  border-radius: 12px;
+  position: relative;
+}
+
+.itemRow input {
+  width: 100%;
+  padding: 9px 9px;
+  border-radius: 12px;
+}
+
+.itemRow .btnDel {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border-radius: 12px;
+  border: 1px solid rgba(239, 68, 68, .35);
+  background: rgba(239, 68, 68, .10);
+  color: #ffd2d2;
+  cursor: pointer;
+}
+
+.itemRow .btnDel:hover {
+  background: rgba(239, 68, 68, .18)
 }
 
 .itemRow input {
@@ -394,11 +416,17 @@ body {
 
 .sheet__brandContact {
   display: flex;
-  align-items: center;
-  gap: 3px;
+  flex-direction: column;
+  gap: 2px;
   font-size: 9px;
   color: #667085;
   letter-spacing: .03em
+}
+
+.sheet__contactRow {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .sheet__separator {
@@ -536,6 +564,10 @@ tbody td {
   padding: 8px 6px;
   border-bottom: 1px solid rgba(0, 0, 0, .10);
   vertical-align: top;
+  word-wrap: break-word;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
 }
 
 tbody tr:last-child td {
@@ -598,6 +630,7 @@ th.right {
   padding-top: 8px;
   border-top: 1px solid rgba(0, 0, 0, .18);
   font-size: 14px;
+  white-space: nowrap;
 }
 
 /* Payment and totals section */
@@ -778,4 +811,70 @@ th.right {
   .span-2 {
     grid-column: span 2;
   }
+}
+
+/* Image upload styles */
+.image-upload {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.item-thumbnail {
+  width: 70px;
+  height: 70px;
+  object-fit: cover;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, .15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .2);
+}
+
+.btnRemoveImage {
+  padding: 6px 12px;
+  background: rgba(239, 68, 68, .15);
+  color: #ffd2d2;
+  border: 1px solid rgba(239, 68, 68, .35);
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+
+.btnRemoveImage:hover {
+  background: rgba(239, 68, 68, .25);
+}
+
+.imageInput {
+  font-size: 13px;
+  color: var(--text);
+}
+
+/* PDF Preview image styles */
+.item-image-cell {
+  text-align: center;
+  vertical-align: middle;
+  padding: 6px;
+}
+
+.preview-thumbnail {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, .12);
+}
+
+.item-number {
+  font-weight: 600;
+  color: #344054;
+  font-size: 13px;
+}
+
+/* Adjust first column width for image/number */
+.sheet__table table th:first-child,
+.sheet__table table td:first-child {
+  width: 15%;
+  min-width: 80px;
 }
