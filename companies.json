@@ -8,8 +8,8 @@
             "logo": "assets/logos/digital_trade.jpeg",
             "celular": "915336150",
             "banco": "BCP",
-            "cuenta": "1917234591075",
-            "cci": "00219100723459107555",
+            "cuenta": "193 06347171 083",
+            "cci": "002 19119894482206257",
             "titular": "DIGITAL WAVE IMPORTS SAC",
             "direccion": "CA. TEODORO VALCARCEL 185 - SANTIAGO DE SURCO",
             "correo": "comercial.digitaltradegroup@gmail.com",
@@ -19,9 +19,9 @@
                 "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
-                "primary": "#002c77",
-                "secondary": "#0066cc",
-                "accent": "#00a8e1",
+                "primary": "#000000",
+                "secondary": "#4b5563",
+                "accent": "#9ca3af",
                 "headerFont": "'Roboto', sans-serif",
                 "headerWeight": "700",
                 "style": "modern",
@@ -51,9 +51,9 @@
                 "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
-                "primary": "#00b4d8",
-                "secondary": "#0077b6",
-                "accent": "#90e0ef",
+                "primary": "#111827",
+                "secondary": "#4b5563",
+                "accent": "#d1d5db",
                 "headerFont": "'Poppins', sans-serif",
                 "bodyFont": "'Poppins', sans-serif",
                 "headerWeight": "600",
@@ -73,8 +73,8 @@
             "logo": "assets/logos/interlab.jpeg",
             "celular": "",
             "banco": "BBVA",
-            "cuenta": "0011 0814 0272273 524",
-            "cci": "011 814 000272273524 14",
+            "cuenta": "0011-0345-0200705870",
+            "cci": "01134500020070587060",
             "titular": "",
             "direccion": "JR CHANCAY 741",
             "correo": "marketing.interlab.corporation@gmail.com",
@@ -84,9 +84,9 @@
                 "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
-                "primary": "#1a472a",
-                "secondary": "#2d6a4f",
-                "accent": "#52b788",
+                "primary": "#1f2937",
+                "secondary": "#6b7280",
+                "accent": "#e5e7eb",
                 "headerFont": "'Merriweather', serif",
                 "bodyFont": "'Open Sans', sans-serif",
                 "headerWeight": "700",
@@ -117,9 +117,9 @@
                 "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
-                "primary": "#1e3a5f",
-                "secondary": "#4a5f7f",
-                "accent": "#c9d6df",
+                "primary": "#000000",
+                "secondary": "#374151",
+                "accent": "#d1d5db",
                 "headerFont": "'Montserrat', sans-serif",
                 "bodyFont": "'Lato', sans-serif",
                 "headerWeight": "600",
@@ -150,9 +150,9 @@
                 "itemHeader": "DESCRIPCIÓN"
             },
             "theme": {
-                "primary": "#d62828",
-                "secondary": "#8b2635",
-                "accent": "#f77f00",
+                "primary": "#000000",
+                "secondary": "#525252",
+                "accent": "#f3f4f6",
                 "headerFont": "'Raleway', sans-serif",
                 "bodyFont": "'Inter', sans-serif",
                 "headerWeight": "700",

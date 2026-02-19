@@ -122,16 +122,9 @@
         sheetRoot.classList.add(`footer-${t.footerStyle}`);
       }
 
-      // Micro-Design: Shadow
-      if (t.boxShadow === true) {
-        sheetRoot.classList.add('shadow-active');
-      } else {
-        sheetRoot.classList.remove('shadow-active');
-      }
-
-      // Micro-Design: Radius & Font
-      const radiusValue = t.borderRadius === 'square' ? '0px' : '10px';
-      sheetRoot.style.setProperty('--theme-radius', radiusValue);
+      // Final design is flat: no dynamic radii or shadows
+      sheetRoot.style.setProperty('--theme-radius', '0px');
+      sheetRoot.classList.remove('shadow-active');
 
       if (t.quoteFont) {
         sheetRoot.style.setProperty('--theme-quote-font', t.quoteFont);
@@ -191,21 +184,12 @@
     const bankAccount = $("bankAccount");
     const bankCCI = $("bankCCI");
     const bankHolder = $("bankHolder");
-    const bankLogo = $("bankLogo");
+    const bankNameText = $("bankNameText");
 
-    if (bankAccount) bankAccount.textContent = `CTA CORRIENTE ${c.banco} ${c.cuenta}`;
+    if (bankAccount) bankAccount.innerHTML = `CTA CORRIENTE<br>${c.banco} ${c.cuenta}`;
     if (bankCCI) bankCCI.textContent = `CCI ${c.cci}`;
     if (bankHolder) bankHolder.textContent = c.titular;
-
-    // Update bank logo based on bank name
-    if (bankLogo) {
-      const logoMap = {
-        'BBVA': 'assets/logo_bbva.png',
-        'BCP': 'assets/bcp_logo.jpg'
-      };
-      bankLogo.src = logoMap[c.banco] || 'assets/bcp_logo.jpg';
-      bankLogo.alt = c.banco || 'BCP';
-    }
+    if (bankNameText) bankNameText.textContent = c.banco || 'BCP';
 
     // Hide benefits for RUC starting with 10
     const benefitsSection = document.querySelector('.benefits');
