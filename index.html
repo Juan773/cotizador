@@ -140,6 +140,11 @@
                 <label>Descuento</label>
                 <input id="discount" type="number" step="0.01" min="0" value="0" />
               </div>
+              <div class="field inline">
+                <label style="color: var(--accent); font-weight: 800;">Total Manual</label>
+                <input id="manualTotal" type="number" step="0.01" min="0" placeholder="Opcional"
+                  style="border-color: var(--accent);" />
+              </div>
             </div>
           </div>
         </div>
@@ -282,7 +287,8 @@
             <div class="totRow"><span>Subtotal (sin IGV):</span><strong id="p_subtotal">—</strong></div>
             <div class="totRow"><span>+ IGV (<span id="p_tax_rate">18</span>%):</span><strong id="p_igv">—</strong>
             </div>
-            <div class="totRow totRow--grand"><span>Total Cotización:</span><strong id="p_total">—</strong></div>
+            <div class="totRow totRow--grand"><span>Total Cotización:</span><strong id="p_total" contenteditable="true"
+                title="Haz clic para editar el total directamente">—</strong></div>
           </div>
         </div>
 

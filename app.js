@@ -425,7 +425,14 @@
     const rate = toNumber($("taxRate").value) / 100;
     const tax = taxable * rate;
     const total = taxable + tax;
-    return { subtotal, discount, tax, total };
+
+    // Check for manual total override
+    const manualTotalVal = toNumber($("manualTotal").value);
+    if ($("manualTotal").value.trim() !== "" && manualTotalVal !== 0) {
+      return { subtotal, discount, tax, total: manualTotalVal, isManual: true };
+    }
+
+    return { subtotal, discount, tax, total, isManual: false };
   }
 
   function setText(id, value) {
@@ -794,6 +801,12 @@
     $("btnAddItem").addEventListener("click", () => addItem());
     $("btnGenerate").addEventListener("click", generatePDF);
     $("btnReset").addEventListener("click", resetAll);
+
+    // Manual total input
+    const manualTotalInput = $("manualTotal");
+    if (manualTotalInput) {
+      manualTotalInput.addEventListener("input", syncPreview);
+    }
 
     syncPreview();
   }
