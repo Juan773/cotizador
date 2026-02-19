@@ -726,6 +726,25 @@ th.right {
 
 /* --- End Micro-Design Variations --- */
 
+/* Direct Editing Styles */
+[contenteditable="true"] {
+  cursor: pointer;
+  transition: background 0.2s, border 0.2s;
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+[contenteditable="true"]:hover {
+  background: rgba(0, 0, 0, 0.03);
+  box-shadow: 0 0 0 2px rgba(var(--accent-rgb), 0.1);
+}
+
+[contenteditable="true"]:focus {
+  outline: none;
+  background: rgba(0, 0, 0, 0.05);
+  box-shadow: 0 0 0 2px var(--accent);
+}
+
 /* --- Footer Variations --- */
 
 /* Hidden: Hide commercial name in footer */

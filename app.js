@@ -619,10 +619,18 @@
 
     // Totals
     const t = computeTotals();
-    $("p_subtotal").textContent = fmtMoney(t.subtotal);
-    $("p_tax_rate").textContent = $("taxRate").value;
-    $("p_igv").textContent = fmtMoney(t.tax);
-    $("p_total").textContent = fmtMoney(t.total);
+    const pSubtotal = $("p_subtotal");
+    const pIgv = $("p_igv");
+    const pTotal = $("p_total");
+
+    if (pSubtotal) pSubtotal.textContent = fmtMoney(t.subtotal);
+    if ($("p_tax_rate")) $("p_tax_rate").textContent = $("taxRate").value;
+    if (pIgv) pIgv.textContent = fmtMoney(t.tax);
+
+    // Only update p_total if it's not being edited to avoid losing cursor position
+    if (pTotal && document.activeElement !== pTotal) {
+      pTotal.textContent = fmtMoney(t.total);
+    }
   }
 
   function validateBeforeGenerate() {
@@ -806,6 +814,31 @@
     const manualTotalInput = $("manualTotal");
     if (manualTotalInput) {
       manualTotalInput.addEventListener("input", syncPreview);
+    }
+
+    // Direct Preview Editing for Total
+    const pTotal = $("p_total");
+    if (pTotal) {
+      pTotal.addEventListener("input", (e) => {
+        // Extract only numbers and dots/commas
+        const rawValue = e.target.textContent;
+        const cleanValue = rawValue.replace(/[^\d.,]/g, "").replace(",", ".");
+        const numValue = parseFloat(cleanValue);
+
+        if (!isNaN(numValue)) {
+          const manualInput = $("manualTotal");
+          if (manualInput) {
+            manualInput.value = numValue.toFixed(2);
+            // We don't call syncPreview here to avoid cursor jumps, 
+            // but we update the internal state
+          }
+        }
+      });
+
+      pTotal.addEventListener("blur", () => {
+        // Re-format on blur to look like money again
+        syncPreview();
+      });
     }
 
     syncPreview();
