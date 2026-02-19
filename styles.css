@@ -368,11 +368,10 @@ body {
 }
 
 .sheet__logo {
-  width: 90px;
-  height: 90px;
+  width: 150px;
+  height: 150px;
   object-fit: contain;
-  border-radius: 8px;
-  border: 1px solid rgba(0, 0, 0, .12)
+  border-radius: 4px;
 }
 
 /* Theme-aware styles */
