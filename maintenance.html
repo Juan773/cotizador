@@ -152,12 +152,30 @@
             <div class="loader"></div>
             <div class="icon">⚙️</div>
         </div>
-        <h1>Estamos en Mantenimiento MARRANNO</h1>
-        <div class="status-badge">Actualización en curso</div>
+        <h1>A VER COTIZA MARRANNO</h1>
+        <!-- <div class="status-badge">Actualización en curso</div>
         <p>Estamos realizando mejoras en el Cotizador PDF para brindarte una mejor experiencia. Por favor, vuelve a
-            intentarlo en unos minutos.</p>
+            intentarlo en unos minutos.</p> -->
         <div class="footer">Digital Trade Group © 2026</div>
     </div>
+    <script>
+        // Auto-check to return to the app when maintenance is over
+        async function checkStatus() {
+            try {
+                const response = await fetch('settings.json?t=' + Date.now());
+                if (!response.ok) return;
+                const settings = await response.json();
+                if (!settings.maintenance) {
+                    window.location.href = 'index.html';
+                }
+            } catch (e) {
+                // Ignore errors
+            }
+        }
+
+        // Check every 10 seconds
+        setInterval(checkStatus, 10000);
+    </script>
 </body>
 
 </html>

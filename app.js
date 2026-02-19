@@ -1,6 +1,20 @@
 (function () {
   const $ = (id) => document.getElementById(id);
 
+  // Check for maintenance mode (for Vercel/Static hosting compatibility)
+  async function checkMaintenance() {
+    try {
+      const response = await fetch('settings.json?t=' + Date.now());
+      if (!response.ok) return;
+      const settings = await response.json();
+      if (settings.maintenance) {
+        window.location.href = 'maintenance.html';
+      }
+    } catch (e) {
+      console.warn('Could not check maintenance status');
+    }
+  }
+
   const state = {
     items: [],
     companies: [],
@@ -738,6 +752,9 @@
   }
 
   function wire() {
+    // Check maintenance mode first
+    checkMaintenance();
+
     // Load companies first
     loadCompanies();
 
