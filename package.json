@@ -11,6 +11,8 @@
   "pkg": {
     "assets": [
       "index.html",
+      "maintenance.html",
+      "settings.json",
       "styles.css",
       "app.js",
       "html2pdf.bundle.min.js",

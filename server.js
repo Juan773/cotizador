@@ -31,7 +31,43 @@ if (process.pkg) {
     basePath = __dirname;
 }
 
+// Load settings
+function getSettings() {
+    try {
+        const internalSettingsPath = path.join(__dirname, 'settings.json');
+        const externalSettingsPath = process.pkg ? path.join(path.dirname(process.execPath), 'settings.json') : internalSettingsPath;
+
+        // Prioritize external settings so users can toggle it
+        const settingsPath = fs.existsSync(externalSettingsPath) ? externalSettingsPath : internalSettingsPath;
+
+        if (fs.existsSync(settingsPath)) {
+            return JSON.parse(fs.readFileSync(settingsPath, 'utf8'));
+        }
+    } catch (e) {
+        console.error('Error loading settings:', e);
+    }
+    return { maintenance: false };
+}
+
 const server = http.createServer((req, res) => {
+    const settings = getSettings();
+    const urlPath = req.url.split('?')[0];
+
+    // If maintenance mode is ON and it's not an API call or internal asset check
+    if (settings.maintenance && !urlPath.startsWith('/api/') && urlPath !== '/maintenance.html') {
+        const maintenanceInternalPath = path.join(__dirname, 'maintenance.html');
+        const maintenanceExternalPath = process.pkg ? path.join(path.dirname(process.execPath), 'maintenance.html') : maintenanceInternalPath;
+        const maintenancePath = fs.existsSync(maintenanceInternalPath) ? maintenanceInternalPath : maintenanceExternalPath;
+
+        if (fs.existsSync(maintenancePath)) {
+            fs.readFile(maintenancePath, (err, content) => {
+                res.writeHead(503, { 'Content-Type': 'text/html', 'Retry-After': '3600' });
+                res.end(content, 'utf-8');
+            });
+            return;
+        }
+    }
+
     // Proxy endpoint for RUC API to avoid CORS
     if (req.url.startsWith('/api/ruc/')) {
         const ruc = req.url.replace('/api/ruc/', '').split('?')[0];
@@ -147,7 +183,7 @@ const server = http.createServer((req, res) => {
     }
 
     // Unified file resolution logic for standalone executable
-    let urlPath = req.url.split('?')[0];
+    urlPath = req.url.split('?')[0];
     let filePath = urlPath === '/' ? '/index.html' : urlPath;
     const relativePath = filePath.startsWith('/') ? filePath.slice(1) : filePath;
 
