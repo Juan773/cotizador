@@ -145,6 +145,9 @@
                 <input id="manualTotal" type="number" step="0.01" min="0" placeholder="Opcional"
                   style="border-color: var(--accent);" />
               </div>
+              <!-- Hidden/Advanced manual overrides -->
+              <input type="hidden" id="manualSubtotal" />
+              <input type="hidden" id="manualIGV" />
             </div>
           </div>
         </div>
@@ -284,8 +287,10 @@
           </div>
 
           <div class="totalBox">
-            <div class="totRow"><span>Subtotal (sin IGV):</span><strong id="p_subtotal">—</strong></div>
-            <div class="totRow"><span>+ IGV (<span id="p_tax_rate">18</span>%):</span><strong id="p_igv">—</strong>
+            <div class="totRow"><span>Subtotal (sin IGV):</span><strong id="p_subtotal" contenteditable="true"
+                title="Editar Subtotal manualmente">—</strong></div>
+            <div class="totRow"><span>+ IGV (<span id="p_tax_rate">18</span>%):</span><strong id="p_igv"
+                contenteditable="true" title="Editar IGV manualmente">—</strong>
             </div>
             <div class="totRow totRow--grand"><span>Total Cotización:</span><strong id="p_total" contenteditable="true"
                 title="Haz clic para editar el total directamente">—</strong></div>

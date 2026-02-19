@@ -419,20 +419,42 @@
   }
 
   function computeTotals() {
-    const subtotal = state.items.reduce((acc, it) => acc + toNumber(it.cant) * toNumber(it.priceIncIGV), 0);
+    let subtotal = state.items.reduce((acc, it) => acc + toNumber(it.cant) * toNumber(it.priceIncIGV), 0);
     const discount = toNumber($("discount").value);
-    const taxable = Math.max(0, subtotal - discount);
+    let taxable = Math.max(0, subtotal - discount);
     const rate = toNumber($("taxRate").value) / 100;
-    const tax = taxable * rate;
-    const total = taxable + tax;
+    let tax = taxable * rate;
+    let total = taxable + tax;
 
-    // Check for manual total override
-    const manualTotalVal = toNumber($("manualTotal").value);
-    if ($("manualTotal").value.trim() !== "" && manualTotalVal !== 0) {
-      return { subtotal, discount, tax, total: manualTotalVal, isManual: true };
+    // Manual Subtotal Override
+    const manualSubVal = toNumber($("manualSubtotal").value);
+    if ($("manualSubtotal").value !== "" && manualSubVal !== 0) {
+      subtotal = manualSubVal;
+      taxable = Math.max(0, subtotal - discount);
+      tax = taxable * rate;
+      total = taxable + tax;
     }
 
-    return { subtotal, discount, tax, total, isManual: false };
+    // Manual IGV Override
+    const manualIGVVal = toNumber($("manualIGV").value);
+    if ($("manualIGV").value !== "" && manualIGVVal !== 0) {
+      tax = manualIGVVal;
+      total = taxable + tax;
+    }
+
+    // Manual Total Override
+    const manualTotalVal = toNumber($("manualTotal").value);
+    if ($("manualTotal").value.trim() !== "" && manualTotalVal !== 0) {
+      total = manualTotalVal;
+    }
+
+    return {
+      subtotal,
+      discount,
+      tax,
+      total,
+      isManual: $("manualTotal").value !== "" || $("manualSubtotal").value !== "" || $("manualIGV").value !== ""
+    };
   }
 
   function setText(id, value) {
@@ -623,9 +645,13 @@
     const pIgv = $("p_igv");
     const pTotal = $("p_total");
 
-    if (pSubtotal) pSubtotal.textContent = fmtMoney(t.subtotal);
+    if (pSubtotal && document.activeElement !== pSubtotal) {
+      pSubtotal.textContent = fmtMoney(t.subtotal);
+    }
     if ($("p_tax_rate")) $("p_tax_rate").textContent = $("taxRate").value;
-    if (pIgv) pIgv.textContent = fmtMoney(t.tax);
+    if (pIgv && document.activeElement !== pIgv) {
+      pIgv.textContent = fmtMoney(t.tax);
+    }
 
     // Only update p_total if it's not being edited to avoid losing cursor position
     if (pTotal && document.activeElement !== pTotal) {
@@ -816,30 +842,26 @@
       manualTotalInput.addEventListener("input", syncPreview);
     }
 
-    // Direct Preview Editing for Total
-    const pTotal = $("p_total");
-    if (pTotal) {
-      pTotal.addEventListener("input", (e) => {
-        // Extract only numbers and dots/commas
-        const rawValue = e.target.textContent;
-        const cleanValue = rawValue.replace(/[^\d.,]/g, "").replace(",", ".");
-        const numValue = parseFloat(cleanValue);
-
-        if (!isNaN(numValue)) {
-          const manualInput = $("manualTotal");
-          if (manualInput) {
-            manualInput.value = numValue.toFixed(2);
-            // We don't call syncPreview here to avoid cursor jumps, 
-            // but we update the internal state
+    // Direct Preview Editing
+    const setupManualEdit = (elId, manualInputId) => {
+      const el = $(elId);
+      if (el) {
+        el.addEventListener("input", (e) => {
+          const rawValue = e.target.textContent;
+          const cleanValue = rawValue.replace(/[^\d.,]/g, "").replace(",", ".");
+          const numValue = parseFloat(cleanValue);
+          if (!isNaN(numValue)) {
+            const manualInput = $(manualInputId);
+            if (manualInput) manualInput.value = numValue.toFixed(2);
           }
-        }
-      });
+        });
+        el.addEventListener("blur", syncPreview);
+      }
+    };
 
-      pTotal.addEventListener("blur", () => {
-        // Re-format on blur to look like money again
-        syncPreview();
-      });
-    }
+    setupManualEdit("p_total", "manualTotal");
+    setupManualEdit("p_subtotal", "manualSubtotal");
+    setupManualEdit("p_igv", "manualIGV");
 
     syncPreview();
   }
