@@ -694,6 +694,12 @@
       syncPreview();
 
       const element = $("pdfRoot");
+
+      // Hide benefits text box border for clean PDF output
+      const benefitsEl = $("benefitsText");
+      const benefitsOrigBorder = benefitsEl ? benefitsEl.style.border : null;
+      if (benefitsEl) benefitsEl.style.border = "none";
+
       const quoteNo = ($("quoteNo").value || "cotizacion").replace(/[^\w\-]+/g, "_");
       const filename = `${quoteNo}.pdf`;
 
@@ -709,13 +715,16 @@
           logging: false
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
+        pagebreak: { mode: ['css', 'legacy'], before: '.page-break-before', avoid: '.sheet__payment-totals, .sheet__footer, .totalBox, .bankBox--static' }
       };
 
       console.log("Generando PDF:", filename);
 
       // Generate PDF as blob (more reliable for downloads)
       const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
+
+      // Restore benefits border after PDF capture
+      if (benefitsEl && benefitsOrigBorder !== null) benefitsEl.style.border = benefitsOrigBorder;
 
       // Create download link and trigger it
       const url = URL.createObjectURL(pdfBlob);
@@ -766,6 +775,10 @@
 
     } catch (err) {
       console.error("Error al generar PDF:", err);
+
+      // Restore benefits border on error
+      const benefitsElErr = $("benefitsText");
+      if (benefitsElErr) benefitsElErr.style.border = "1px solid #d0d5dd";
 
       // Reset button
       btnGenerate.textContent = originalText;

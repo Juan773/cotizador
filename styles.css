@@ -346,7 +346,7 @@ body {
   width: 210mm;
   max-width: 100%;
   margin: 0 auto;
-  padding: 10mm 12mm;
+  padding: 6mm 10mm;
   box-shadow: none;
 }
 
@@ -368,8 +368,8 @@ body {
 }
 
 .sheet__logo {
-  width: 130px;
-  height: 130px;
+  width: 80px;
+  height: 80px;
   object-fit: contain;
   border-radius: 4px;
 }
@@ -379,7 +379,7 @@ body {
   font-family: var(--theme-header-font);
   font-weight: var(--theme-header-weight);
   color: var(--theme-primary);
-  font-size: 22px;
+  font-size: 18px;
   letter-spacing: .05em;
   margin-bottom: 2px
 }
@@ -492,7 +492,7 @@ body {
 .sheet__divider {
   height: 1px;
   background: rgba(0, 0, 0, .14);
-  margin: 8px 0
+  margin: 4px 0
 }
 
 .clientGrid {
@@ -505,8 +505,8 @@ body {
 .clientGrid3 {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  gap: 12px;
-  padding: 12px 0;
+  gap: 8px;
+  padding: 6px 0;
   border-top: 1px solid #eee;
   border-bottom: 1px solid #eee;
 }
@@ -538,7 +538,7 @@ body {
 }
 
 .sheet__table {
-  margin-top: 10px
+  margin-top: 6px
 }
 
 table {
@@ -550,14 +550,14 @@ thead th {
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: .08em;
-  padding: 8px 6px;
+  padding: 5px 6px;
   border-bottom: 1px solid rgba(0, 0, 0, .18);
   color: #475467;
 }
 
 tbody td {
-  font-size: 13px;
-  padding: 8px 6px;
+  font-size: 12px;
+  padding: 5px 6px;
   border-bottom: 1px solid rgba(0, 0, 0, .10);
   vertical-align: top;
   word-wrap: break-word;
@@ -572,6 +572,11 @@ tbody tr:last-child td {
 
 .sheet__table tr {
   page-break-inside: avoid;
+}
+
+/* Allow table body to break between rows naturally */
+.sheet__table tbody {
+  page-break-inside: auto;
 }
 
 td.right,
@@ -638,12 +643,27 @@ th.right {
   page-break-inside: avoid;
 }
 
+/* Keep payment+totals section together when possible */
+.sheet__payment-totals {
+  page-break-inside: avoid;
+}
+
+/* Footer never breaks */
+.sheet__footer {
+  page-break-inside: avoid;
+}
+
+/* Table rows: break between rows, not inside */
+.sheet__table tbody tr {
+  page-break-inside: avoid;
+}
+
 /* Payment and totals section */
 .sheet__payment-totals {
   display: grid;
   grid-template-columns: 1.4fr .6fr;
   gap: 16px;
-  margin-top: 14px;
+  margin-top: 8px;
 }
 
 .paymentMethods h4 {
@@ -788,7 +808,7 @@ th.right {
   justify-content: space-between;
   align-items: flex-end;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 8px;
 }
 
 .sig {
