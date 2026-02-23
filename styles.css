@@ -925,3 +925,439 @@ th.right {
   width: 15%;
   min-width: 80px;
 }
+
+/* ═══════════════════════════════════════════════════════
+   CLASSIC CORPORATE LAYOUT - PDF Sheet
+   ═══════════════════════════════════════════════════════ */
+
+/* ── HEADER ────────────────────────────────────────────── */
+.classic-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 2px solid #000;
+  margin-bottom: 0;
+}
+
+.classic-header__brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  flex: 1;
+}
+
+.classic-logo {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.classic-brand-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.classic-brand-name {
+  font-family: var(--theme-header-font);
+  font-weight: var(--theme-header-weight, 700);
+  font-size: 15px;
+  color: var(--theme-primary, #000);
+  letter-spacing: 0.04em;
+  margin-bottom: 2px;
+}
+
+.classic-brand-sub {
+  font-size: 9px;
+  color: #444;
+  line-height: 1.4;
+}
+
+/* ── QUOTE BOX (recuadro derecho) ────────────────────────── */
+.classic-quote-box {
+  border: 2px solid #000;
+  min-width: 130px;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.classic-quote-box__title {
+  font-family: var(--theme-header-font);
+  font-weight: 800;
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: var(--theme-primary, #000);
+  color: #fff;
+  padding: 5px 10px;
+  margin-bottom: 0;
+}
+
+.classic-quote-box__row {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-top: 1px solid #ccc;
+}
+
+.classic-quote-box__row span:first-child {
+  color: #555;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.classic-quote-box__row span:last-child {
+  font-weight: 700;
+  color: #000;
+}
+
+/* ── INTRO TEXT ─────────────────────────────────────────── */
+.classic-intro {
+  font-size: 10px;
+  color: #333;
+  padding: 6px 0 4px 0;
+  border-bottom: 1px solid #ccc;
+  font-style: italic;
+}
+
+/* ── CLIENT SECTION ─────────────────────────────────────── */
+.classic-client {
+  border: 1px solid #000;
+  border-top: none;
+  margin-bottom: 0;
+}
+
+.classic-client__row {
+  display: grid;
+  grid-template-columns: 80px 1fr 65px 1fr;
+  border-bottom: 1px solid #ccc;
+  font-size: 10px;
+  min-height: 18px;
+}
+
+.classic-client__row:last-child {
+  border-bottom: none;
+}
+
+.classic-client__label,
+.classic-client__label-r {
+  font-weight: 800;
+  color: #000;
+  padding: 3px 6px;
+  background: #f0f0f0;
+  text-transform: uppercase;
+  font-size: 9px;
+  display: flex;
+  align-items: center;
+  border-right: 1px solid #000;
+  white-space: nowrap;
+}
+
+.classic-client__label-r {
+  border-left: 1px solid #000;
+}
+
+.classic-client__value,
+.classic-client__value-r {
+  padding: 3px 6px;
+  font-weight: 600;
+  color: #111;
+  display: flex;
+  align-items: center;
+  word-break: break-word;
+  font-size: 10px;
+}
+
+/* ── ITEMS TABLE ────────────────────────────────────────── */
+.classic-table-wrap {
+  margin-top: 6px;
+}
+
+.classic-table {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1px solid #000;
+}
+
+.classic-table thead tr {
+  background: #d0d0d0;
+}
+
+.classic-table thead th {
+  font-size: 10px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 5px 6px;
+  border: 1px solid #000;
+  color: #000;
+  text-align: center;
+}
+
+.classic-table th.ct-desc {
+  text-align: left;
+}
+
+.classic-table tbody td {
+  font-size: 10px;
+  padding: 4px 6px;
+  border: 1px solid #888;
+  vertical-align: top;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.classic-table tbody tr:last-child td {
+  border-bottom: 1px solid #000;
+}
+
+/* Column widths */
+.ct-item {
+  width: 5%;
+  text-align: center;
+}
+
+.ct-desc {
+  width: 48%;
+  text-align: left;
+}
+
+.ct-um {
+  width: 7%;
+  text-align: center;
+}
+
+.ct-cant {
+  width: 8%;
+  text-align: center;
+}
+
+.ct-price {
+  width: 14%;
+  text-align: right;
+}
+
+.ct-total {
+  width: 14%;
+  text-align: right;
+}
+
+/* Item cells in tbody */
+.classic-table tbody td.ct-item,
+.classic-table tbody td.ct-um,
+.classic-table tbody td.ct-cant {
+  text-align: center;
+}
+
+.classic-table tbody td.ct-price,
+.classic-table tbody td.ct-total {
+  text-align: right;
+}
+
+/* ── AMOUNT IN WORDS ────────────────────────────────────── */
+.classic-words-row {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  border: 1px solid #000;
+  border-top: none;
+  padding: 4px 8px;
+  font-size: 10px;
+  page-break-inside: avoid;
+}
+
+.classic-words-label {
+  font-weight: 800;
+  white-space: nowrap;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.classic-words-value {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+/* ── BOTTOM GRID: BANK + TOTALS ─────────────────────────── */
+.classic-bottom {
+  display: grid;
+  grid-template-columns: 1fr 200px;
+  gap: 0;
+  border: 1px solid #000;
+  border-top: none;
+  page-break-inside: avoid;
+}
+
+.classic-bottom__left {
+  padding: 6px 8px;
+  border-right: 1px solid #000;
+}
+
+.classic-section-title {
+  font-size: 9px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #333;
+  border-bottom: 1px solid #ccc;
+  padding-bottom: 2px;
+  margin-bottom: 4px;
+}
+
+.classic-bank {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.classic-bank__name {
+  font-weight: 900;
+  font-size: 12px;
+  color: var(--theme-primary, #000);
+  border-right: 2px solid #000;
+  padding-right: 8px;
+  min-width: 30px;
+  align-self: center;
+}
+
+.classic-bank__detail {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  font-size: 9px;
+  font-weight: 600;
+  color: #222;
+}
+
+.classic-payment-text {
+  font-size: 9px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+/* ── TOTALS BOX ─────────────────────────────────────────── */
+.classic-totals {
+  padding: 0;
+  align-self: stretch;
+}
+
+.classic-totals__row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 4px 6px;
+  padding: 4px 8px;
+  font-size: 10px;
+  border-bottom: 1px solid #ccc;
+  align-items: center;
+}
+
+.classic-totals__row span:last-of-type,
+.classic-totals__row strong {
+  text-align: right;
+  min-width: 55px;
+}
+
+.classic-totals__row span:nth-child(2) {
+  font-weight: 700;
+  color: #555;
+  text-align: right;
+}
+
+.classic-totals__row--grand {
+  background: #f0f0f0;
+  border-top: 2px solid #000;
+  border-bottom: none;
+}
+
+.classic-totals__row--grand span,
+.classic-totals__row--grand strong {
+  font-weight: 900;
+  font-size: 11px;
+  color: #000;
+}
+
+.classic-totals__currency-note {
+  font-size: 8px;
+  color: #666;
+  text-align: center;
+  padding: 3px 4px;
+  border-top: 1px solid #ccc;
+}
+
+/* ── FOOTER: CONDITIONS + SIGNATURE ────────────────────── */
+.classic-footer {
+  display: grid;
+  grid-template-columns: 1fr 140px;
+  gap: 0;
+  border: 1px solid #000;
+  border-top: none;
+  page-break-inside: avoid;
+}
+
+.classic-conditions {
+  padding: 6px 8px;
+  border-right: 1px solid #000;
+}
+
+.classic-condition-row {
+  font-size: 9px;
+  color: #333;
+  padding: 1px 0;
+  display: flex;
+  gap: 4px;
+}
+
+.classic-condition-row span:first-child {
+  font-weight: 700;
+  white-space: nowrap;
+  color: #000;
+}
+
+.classic-igv-note {
+  font-size: 9px;
+  font-weight: 700;
+  color: #cc0000;
+  margin-top: 5px;
+}
+
+.classic-signature {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px;
+  text-align: center;
+}
+
+.classic-signature__space {
+  flex: 1;
+  min-height: 30px;
+}
+
+.classic-signature__line {
+  width: 100%;
+  height: 1px;
+  background: #000;
+  margin-bottom: 4px;
+}
+
+.classic-signature__name {
+  font-weight: 800;
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.classic-signature__role {
+  font-size: 9px;
+  color: #555;
+  margin-top: 1px;
+}

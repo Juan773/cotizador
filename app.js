@@ -177,15 +177,23 @@
     if (sheetLogo) sheetLogo.src = c.logo;
     if (sheetBrandName) sheetBrandName.textContent = c.nombre_comercial;
 
-    // Update PDF header contact info (RUC and Celular instead of address)
+    // Update PDF header contact info (RUC, Celular, Email, Address)
     if (sheetContactInfo) {
       let contactHtml = `<div>RUC: ${c.ruc}</div>`;
       if (c.celular && c.celular.trim().length > 0) {
-        contactHtml += `<div>CEL: ${c.celular}</div>`;
+        contactHtml += `<div>TELF: ${c.celular}</div>`;
       }
       sheetContactInfo.innerHTML = contactHtml;
     }
-    if (sheetEmail) sheetEmail.textContent = c.correo || '';
+    if (sheetEmail) sheetEmail.textContent = c.correo ? `EMAIL: ${c.correo}` : '';
+
+    // Populate address in header
+    const sheetAddress = $("sheetAddress");
+    if (sheetAddress) sheetAddress.textContent = c.direccion ? `DIR: ${c.direccion}` : '';
+
+    // Populate company RUC in the quote box
+    const sheetRUC = $("sheetRUC");
+    if (sheetRUC) sheetRUC.textContent = c.ruc || '—';
 
     // Update footer signature
     const footerBrandName = $("footerBrandName");
@@ -233,6 +241,13 @@
     return `${curr} ${fixed.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
   }
 
+  // Number only (no currency symbol) — for the classic totals box
+  function fmtNum(value) {
+    const n = Number(value || 0);
+    const fixed = n.toFixed(2);
+    return fixed.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
+
   function toNumber(v) {
     const n = Number(String(v).replace(/,/g, '').trim());
     return isFinite(n) ? n : 0;
@@ -245,6 +260,52 @@
       .replaceAll(">", "&gt;")
       .replaceAll('"', "&quot;")
       .replaceAll("'", "&#039;");
+  }
+
+  // ── Número a letras (Español, Soles/Dólares) ──────────────
+  function numberToWords(amount, currency) {
+    const ones = ['', 'UNO', 'DOS', 'TRES', 'CUATRO', 'CINCO', 'SEIS', 'SIETE', 'OCHO', 'NUEVE',
+      'DIEZ', 'ONCE', 'DOCE', 'TRECE', 'CATORCE', 'QUINCE', 'DIECISÉIS',
+      'DIECISIETE', 'DIECIOCHO', 'DIECINUEVE'];
+    const tens = ['', '', 'VEINTE', 'TREINTA', 'CUARENTA', 'CINCUENTA', 'SESENTA', 'SETENTA', 'OCHENTA', 'NOVENTA'];
+    const hundreds = ['', 'CIEN', 'DOSCIENTOS', 'TRESCIENTOS', 'CUATROCIENTOS', 'QUINIENTOS',
+      'SEISCIENTOS', 'SETECIENTOS', 'OCHOCIENTOS', 'NOVECIENTOS'];
+
+    function toWords(n) {
+      if (n === 0) return 'CERO';
+      if (n < 0) return 'MENOS ' + toWords(-n);
+      let result = '';
+      if (n >= 1000000) {
+        const m = Math.floor(n / 1000000);
+        result += (m === 1 ? 'UN MILLÓN' : toWords(m) + ' MILLONES') + ' ';
+        n %= 1000000;
+      }
+      if (n >= 1000) {
+        const k = Math.floor(n / 1000);
+        result += (k === 1 ? 'MIL' : toWords(k) + ' MIL') + ' ';
+        n %= 1000;
+      }
+      if (n >= 100) {
+        const h = Math.floor(n / 100);
+        result += (n === 100 ? 'CIEN' : hundreds[h]) + ' ';
+        n %= 100;
+      }
+      if (n >= 20) {
+        const t = Math.floor(n / 10);
+        result += tens[t] + (n % 10 ? ' Y ' + ones[n % 10] : '') + ' ';
+      } else if (n > 0) {
+        result += ones[n] + ' ';
+      }
+      return result.trim();
+    }
+
+    const intPart = Math.floor(amount);
+    const decPart = Math.round((amount - intPart) * 100);
+    const currencyWord = (currency === '$') ? 'DÓLARES' : 'SOLES';
+    const centsWord = (currency === '$') ? 'CENTAVOS' : 'CÉNTIMOS';
+    let result = toWords(intPart) + ' ' + currencyWord;
+    if (decPart > 0) result += ' CON ' + toWords(decPart) + ' ' + centsWord;
+    return result;
   }
 
   function addItem(prefill) {
@@ -599,44 +660,46 @@
     // Condiciones
     setText("p_paymentTerms", $("paymentTerms").value);
     setText("p_delivery", $("delivery").value);
-
-
+    setText("p_delivery_foot", $("delivery").value);
 
     // Items preview
     const pBody = $("p_itemsBody");
     pBody.innerHTML = "";
     if (state.items.length === 0) {
       const tr = document.createElement("tr");
-      tr.innerHTML = `<td colspan="8" style="color:#667085;font-size:12px;padding:12px 6px;">(Sin ítems)</td>`;
+      tr.innerHTML = `<td colspan="6" style="color:#667085;font-size:11px;padding:10px 6px;text-align:center;">(Sin ítems)</td>`;
       pBody.appendChild(tr);
     } else {
       state.items.forEach((it, idx) => {
         const amount = toNumber(it.cant) * toNumber(it.priceIncIGV);
         const tr = document.createElement("tr");
+        // Description cell: product name + model/brand below
+        let descHtml = `<div style="font-weight:700;font-size:10px;">${escapeHtml(it.desc || '')}</div>`;
+        if (it.modelo || it.marca) {
+          descHtml += `<div style="font-size:9px;color:#555;margin-top:1px;">`;
+          if (it.modelo) descHtml += `Mod: ${escapeHtml(it.modelo)}`;
+          if (it.modelo && it.marca) descHtml += ` | `;
+          if (it.marca) descHtml += `${escapeHtml(it.marca)}`;
+          descHtml += `</div>`;
+        }
         tr.innerHTML = `
-          <td class="item-image-cell">
-            ${it.image ?
-            `<img src="${it.image}" alt="Ítem ${idx + 1}" class="preview-thumbnail" />` :
-            `<span class="item-number">${idx + 1}</span>`
-          }
-          </td>
-          <td>
-            <div style="font-weight: 700;">${escapeHtml(it.desc || "")}</div>
-            ${it.modelo || it.marca ? `
-              <div style="font-size: 11px; color: #475467; margin-top: 2px;">
-                ${it.modelo ? `<span>Mod: ${escapeHtml(it.modelo)}</span>` : ""}
-                ${it.modelo && it.marca ? `<span style="margin: 0 4px;">|</span>` : ""}
-                ${it.marca ? `<span>Marca: ${escapeHtml(it.marca)}</span>` : ""}
-              </div>
-            ` : ""}
-          </td>
-          <td class="right">${escapeHtml(it.cant)}</td>
-          <td>${escapeHtml(it.unit || "")}</td>
-          <td class="right">${fmtMoney(it.priceIncIGV)}</td>
-          <td class="right">${fmtMoney(amount)}</td>
+          <td class="ct-item">${idx + 1}</td>
+          <td class="ct-desc">${descHtml}</td>
+          <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
+          <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
+          <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+          <td class="ct-total">${fmtMoney(amount)}</td>
         `;
         pBody.appendChild(tr);
       });
+    }
+
+    // Amount in words
+    const totForWords = computeTotals();
+    const curr = $("currency").value || 'S/';
+    const pAmountWords = $("p_amountWords");
+    if (pAmountWords) {
+      pAmountWords.textContent = numberToWords(totForWords.total, curr);
     }
 
     // Totals
@@ -646,18 +709,19 @@
     const pTotal = $("p_total");
 
     if (pSubtotal && document.activeElement !== pSubtotal) {
-      pSubtotal.textContent = fmtMoney(t.subtotal);
+      pSubtotal.textContent = fmtNum(t.subtotal);
     }
     if ($("p_tax_rate")) $("p_tax_rate").textContent = $("taxRate").value;
     if (pIgv && document.activeElement !== pIgv) {
-      pIgv.textContent = fmtMoney(t.tax);
+      pIgv.textContent = fmtNum(t.tax);
     }
 
     // Only update p_total if it's not being edited to avoid losing cursor position
     if (pTotal && document.activeElement !== pTotal) {
-      pTotal.textContent = fmtMoney(t.total);
+      pTotal.textContent = fmtNum(t.total);
     }
   }
+
 
   function validateBeforeGenerate() {
     // Basic required fields

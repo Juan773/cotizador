@@ -166,153 +166,155 @@
 
       <!-- This element is what we export to PDF -->
       <div id="pdfRoot" class="sheet">
-        <div class="sheet__header">
-          <div class="sheet__brand">
-            <img class="sheet__logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
-            <div class="sheet__brandText">
-              <div class="sheet__brandName" id="sheetBrandName">DIGITAL TRADE GROUP</div>
-              <div class="sheet__brandContact">
-                <div id="sheetContactInfo"></div>
-                <div id="sheetEmail"></div>
-              </div>
+
+        <!-- ═══ CABECERA ═══ -->
+        <div class="classic-header">
+          <!-- Izquierda: Logo + Empresa -->
+          <div class="classic-header__brand">
+            <img class="classic-logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
+            <div class="classic-brand-info">
+              <div class="classic-brand-name" id="sheetBrandName">DIGITAL TRADE GROUP</div>
+              <div class="classic-brand-sub" id="sheetContactInfo"></div>
+              <div class="classic-brand-sub" id="sheetEmail"></div>
+              <div class="classic-brand-sub" id="sheetAddress"></div>
             </div>
           </div>
-
-          <div class="sheet__meta">
-            <div class="metaBox">
-              <div class="metaBox__title" id="documentTitleLabel">COTIZACIÓN</div>
-              <div class="metaRow"><span>N°</span><strong id="p_quoteNo">—</strong></div>
-              <div class="metaRow"><span>Fecha</span><strong id="p_quoteDate">—</strong></div>
+          <!-- Derecha: Recuadro cotización -->
+          <div class="classic-quote-box">
+            <div class="classic-quote-box__title" id="documentTitleLabel">COTIZACIÓN</div>
+            <div class="classic-quote-box__row">
+              <span>N°</span><span id="p_quoteNo">—</span>
             </div>
-          </div>
-        </div>
-
-        <div class="sheet__divider"></div>
-
-        <div class="sheet__client">
-          <div class="clientGrid3">
-            <!-- Columna 1: Datos básicos -->
-            <div class="clientCol">
-              <div class="clientRow">
-                <div class="label" id="label_client">Señores:</div>
-                <div class="value" id="p_clientName">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">RUC:</div>
-                <div class="value" id="p_clientDoc">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Atención:</div>
-                <div class="value" id="p_clientAttn">—</div>
-              </div>
+            <div class="classic-quote-box__row">
+              <span>RUC</span><span id="sheetRUC">—</span>
             </div>
-
-            <!-- Columna 2: Ubicación -->
-            <div class="clientCol">
-              <div class="clientRow">
-                <div class="label">Dirección:</div>
-                <div class="value" id="p_clientAddress">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Departamento:</div>
-                <div class="value" id="p_clientDepartment">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Distrito:</div>
-                <div class="value" id="p_clientDistrict">—</div>
-              </div>
-            </div>
-
-            <!-- Columna 3: Datos comerciales -->
-            <div class="clientCol">
-              <div class="clientRow">
-                <div class="label">Entrega:</div>
-                <div class="value" id="p_delivery">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Moneda:</div>
-                <div class="value" id="p_currency">—</div>
-              </div>
-              <div class="clientRow">
-                <div class="label">Cond. Venta:</div>
-                <div class="value" id="p_paymentTerms">—</div>
-              </div>
+            <div class="classic-quote-box__row">
+              <span>Fecha</span><span id="p_quoteDate">—</span>
             </div>
           </div>
         </div>
 
-        <div class="sheet__table">
-          <table>
+        <!-- ═══ PRESENTACIÓN ═══ -->
+        <div class="classic-intro">
+          Estimados señores: Atendiendo su amable solicitud le hacemos llegar a ustedes nuestra mejor oferta de los
+          siguientes productos:
+        </div>
+
+        <!-- ═══ DATOS DEL CLIENTE ═══ -->
+        <div class="classic-client">
+          <div class="classic-client__row">
+            <div class="classic-client__label" id="label_client">SEÑORES</div>
+            <div class="classic-client__value" id="p_clientName">—</div>
+            <div class="classic-client__label-r">RUC</div>
+            <div class="classic-client__value-r" id="p_clientDoc">—</div>
+          </div>
+          <div class="classic-client__row">
+            <div class="classic-client__label">DIRECCIÓN</div>
+            <div class="classic-client__value" id="p_clientAddress">—</div>
+            <div class="classic-client__label-r">DIST.</div>
+            <div class="classic-client__value-r" id="p_clientDistrict">—</div>
+          </div>
+          <div class="classic-client__row">
+            <div class="classic-client__label">ATENCIÓN</div>
+            <div class="classic-client__value" id="p_clientAttn">—</div>
+            <div class="classic-client__label-r">DEPTO.</div>
+            <div class="classic-client__value-r" id="p_clientDepartment">—</div>
+          </div>
+          <div class="classic-client__row">
+            <div class="classic-client__label">ENTREGA</div>
+            <div class="classic-client__value" id="p_delivery">—</div>
+            <div class="classic-client__label-r">COND. VENTA</div>
+            <div class="classic-client__value-r" id="p_paymentTerms">—</div>
+          </div>
+        </div>
+
+        <!-- ═══ TABLA DE ÍTEMS ═══ -->
+        <div class="classic-table-wrap">
+          <table class="classic-table">
             <thead>
               <tr>
-                <th style="width: 15%;" class="center">IMG</th>
-                <th style="width: 42%;" id="label_item_header">DESCRIPCIÓN</th>
-                <th style="width: 9%;" class="right">CANT.</th>
-                <th style="width: 8%;">UN.</th>
-                <th style="width: 13%;" class="right">PRECIO</th>
-                <th style="width: 13%;" class="right">TOTAL</th>
+                <th class="ct-item">ITEM</th>
+                <th class="ct-desc" id="label_item_header">DESCRIPCIÓN</th>
+                <th class="ct-um">UM</th>
+                <th class="ct-cant">CANT.</th>
+                <th class="ct-price">PRECIO UNIT.</th>
+                <th class="ct-total">TOTAL</th>
               </tr>
             </thead>
             <tbody id="p_itemsBody"></tbody>
           </table>
         </div>
 
-        <div class="sheet__payment-totals">
-          <div class="paymentMethods">
-            <h4>Métodos de pago</h4>
+        <!-- ═══ MONTO EN LETRAS ═══ -->
+        <div class="classic-words-row">
+          <span class="classic-words-label">SON:</span>
+          <span class="classic-words-value" id="p_amountWords">—</span>
+        </div>
 
-            <div class="paymentLogos">
-              <div class="paymentGroup">
-                <p style="font-size: 11px; margin: 0 0 4px 0; color: #666;">Aceptamos:</p>
-                <div style="font-size: 11px; font-weight: 700; color: #475467;">
-                  VISA, MASTERCARD, PAGO EFECTIVO (NIUBIZ)
-                </div>
+        <!-- ═══ SECCIÓN INFERIOR: BANCO + TOTALES ═══ -->
+        <div class="classic-bottom">
+          <!-- Izquierda: Datos bancarios + condiciones -->
+          <div class="classic-bottom__left">
+            <div class="classic-section-title">INFORMACIÓN DE PAGO</div>
+            <div class="classic-bank">
+              <div class="classic-bank__name" id="bankNameText">BCP</div>
+              <div class="classic-bank__detail">
+                <div id="bankAccount">CTA CORRIENTE BCP 1917234591075</div>
+                <div id="bankCCI">CCI 00219100723459107555</div>
+                <div id="bankHolder">DIGITAL WAVE IMPORTS SAC</div>
               </div>
             </div>
-
-            <div class="bankBox bankBox--static" style="margin-top: 12px;">
-              <div id="bankNameText">BCP</div>
-              <div class="bankBox__info">
-                <div style="font-size: 10px; font-weight: 700;" id="bankAccount">CTA CORRIENTE BCP 1917234591075</div>
-                <div style="font-size: 10px; color: #666;" id="bankCCI">CCI 00219100723459107555</div>
-                <div style="font-size: 9px; font-weight: 700; margin-top: 2px;" id="bankHolder">DIGITAL WAVE IMPORTS SAC
-                </div>
-              </div>
-            </div>
-
-            <div class="benefits">
+            <div class="classic-section-title" style="margin-top:8px;">MÉTODOS DE PAGO</div>
+            <div class="classic-payment-text">VISA · MASTERCARD · PAGO EFECTIVO (NIUBIZ)</div>
+            <div class="benefits" style="margin-top:6px;">
               <div id="benefitsText" contenteditable="true" title="Haz clic para editar"
-                style="margin-top: 8px; font-size: 10px; font-family: inherit; border: 1px solid #d0d5dd; border-radius: 4px; padding: 5px 7px; color: #344054; background: #fff; line-height: 1.6; min-height: 44px; cursor: text; white-space: pre-wrap;">
+                style="font-size: 9px; font-family: inherit; border: 1px solid #d0d5dd; padding: 4px 6px; color: #344054; background: #fff; line-height: 1.5; min-height: 30px; cursor: text; white-space: pre-wrap;">
               </div>
             </div>
           </div>
 
-          <div class="totalBox">
-            <div class="totRow"><span>Subtotal (sin IGV):</span><strong id="p_subtotal" contenteditable="true"
-                title="Editar Subtotal manualmente">—</strong></div>
-            <div class="totRow"><span>+ IGV (<span id="p_tax_rate">18</span>%):</span><strong id="p_igv"
-                contenteditable="true" title="Editar IGV manualmente">—</strong>
+          <!-- Derecha: Box de totales -->
+          <div class="classic-totals">
+            <div class="classic-totals__row">
+              <span>SUB TOTAL</span>
+              <span>S/</span>
+              <strong id="p_subtotal" contenteditable="true" title="Editar Subtotal manualmente">—</strong>
             </div>
-            <div class="totRow totRow--grand"><span>Total Cotización:</span><strong id="p_total" contenteditable="true"
-                title="Haz clic para editar el total directamente">—</strong></div>
+            <div class="classic-totals__row">
+              <span>IGV (<span id="p_tax_rate">18</span>%)</span>
+              <span>S/</span>
+              <strong id="p_igv" contenteditable="true" title="Editar IGV manualmente">—</strong>
+            </div>
+            <div class="classic-totals__row classic-totals__row--grand">
+              <span>TOTAL GENERAL</span>
+              <span>S/</span>
+              <strong id="p_total" contenteditable="true" title="Haz clic para editar el total directamente">—</strong>
+            </div>
+            <div class="classic-totals__currency-note">
+              Moneda: <span id="p_currency">—</span>
+            </div>
           </div>
         </div>
 
-        <div class="sheet__footer">
-          <div class="sig">
-            <div class="sig__line"></div>
-            <div class="sig__name" id="footerBrandName">DIGITAL TRADE GROUP</div>
-            <!-- <div class="sig__label" id="footerBrandTag">TECHNOLOGY & IMPORTS</div> -->
+        <!-- ═══ CONDICIONES + FIRMA ═══ -->
+        <div class="classic-footer">
+          <div class="classic-conditions">
+            <div class="classic-section-title">CONDICIONES GENERALES</div>
+            <div class="classic-condition-row"><span>Lugar de entrega:</span> <span id="p_delivery_foot">—</span></div>
+            <div class="classic-condition-row"><span>Validez de la oferta:</span> <span>15 días calendario</span></div>
+            <div class="classic-condition-row"><span>Observaciones:</span> <span>Precios sujetos a disponibilidad de
+                stock.</span></div>
+            <div class="classic-igv-note">* Los precios unitarios de los productos INCLUYEN IGV</div>
           </div>
-          <div class="footNote">
-            <!-- <div>Gracias por su preferencia.</div> -->
-
+          <div class="classic-signature">
+            <div class="classic-signature__space"></div>
+            <div class="classic-signature__line"></div>
+            <div class="classic-signature__name" id="footerBrandName">DIGITAL TRADE GROUP</div>
+            <div class="classic-signature__role">Ejecutivo de Ventas</div>
           </div>
         </div>
 
-        <div class="note">
-          <!-- Si quieres que el PDF calce 1:1 con tu modelo, podemos ajustar márgenes, tamaños de letra y secciones cuando me confirmes exactamente qué campos aparecen en tu formato final. -->
-        </div>
+      </div><!-- /#pdfRoot -->
     </section>
   </main>
 
