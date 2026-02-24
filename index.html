@@ -13,7 +13,7 @@
     href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Poppins:wght@400;600&family=Merriweather:wght@700&family=Open+Sans:wght@400&family=Montserrat:wght@600&family=Lato:wght@400&family=Raleway:wght@700&family=Inter:wght@400&display=swap"
     rel="stylesheet">
 
-  <link rel="stylesheet" href="styles.css?v=202602012300" />
+  <link rel="stylesheet" href="styles.css?v=202602232350" />
 
   <style>
     :root {
@@ -166,7 +166,11 @@
 
       <!-- This element is what we export to PDF -->
       <div id="pdfRoot" class="sheet">
+        <!-- Content will be injected here by JS -->
+      </div><!-- /#pdfRoot -->
 
+      <!-- ═══ TEMPLATES ═══ -->
+      <template id="tmpl-dtg">
         <!-- ═══ CABECERA ═══ -->
         <div class="classic-header">
           <!-- Izquierda: Logo + Empresa -->
@@ -308,14 +312,325 @@
           </div>
 
         </div>
+      </template>
 
-      </div><!-- /#pdfRoot -->
+      <template id="tmpl-coldfrog">
+        <!-- Coldfrog specific design -->
+        <div class="coldfrog-layout">
+          <div class="cf-header">
+            <div class="cf-brand">
+              <img class="cf-logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
+              <div class="cf-brand-info">
+                <div class="cf-brand-name" id="sheetBrandName">COLDFROG STORE</div>
+                <div class="cf-brand-sub" id="sheetContactInfo"></div>
+                <div class="cf-brand-sub" id="sheetEmail"></div>
+                <div class="cf-brand-sub" id="sheetAddress"></div>
+              </div>
+            </div>
+            <div class="cf-quote-box">
+              <div class="cf-quote-row">
+                <span class="cf-label">R.U.C.</span><span class="cf-val" id="sheetRUC">—</span>
+              </div>
+              <div class="cf-quote-title" id="documentTitleLabel">PROFORMA</div>
+              <div class="cf-quote-row">
+                <span class="cf-label">N°</span><span class="cf-val" id="p_quoteNo">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="cf-client-box">
+            <div class="cf-client-col">
+              <div class="cf-client-row">
+                <span class="cf-label">Señor(es):</span><span class="cf-val" id="p_clientName">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">Dirección:</span><span class="cf-val" id="p_clientAddress">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">D.N.I/R.U.C:</span><span class="cf-val" id="p_clientDoc">—</span>
+              </div>
+            </div>
+            <div class="cf-client-col">
+              <div class="cf-client-row">
+                <span class="cf-label">Fecha:</span><span class="cf-val" id="p_quoteDate">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">Moneda:</span><span class="cf-val" id="p_currency">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">Forma de Pago:</span><span class="cf-val" id="p_paymentTerms">—</span>
+              </div>
+            </div>
+          </div>
+
+          <table class="cf-table">
+            <thead>
+              <tr>
+                <th class="ct-image"></th>
+                <th class="ct-desc">DESCRIPCION</th>
+                <th class="ct-cant">CANT.</th>
+                <th class="ct-um">UND.</th>
+                <th class="ct-price">P.UNIT.</th>
+                <th class="ct-total">TOTAL</th>
+              </tr>
+            </thead>
+            <tbody id="p_itemsBody"></tbody>
+          </table>
+
+          <div class="cf-words-row">
+            <span class="cf-words-label">SON:</span> <span class="cf-words-value" id="p_amountWords">—</span>
+          </div>
+
+          <div class="cf-bottom">
+            <div class="cf-bank-details">
+              <div class="cf-section-title">DATOS BANCARIOS</div>
+              <div class="cf-bank-row">
+                <span class="cf-bank-name" id="bankNameText">BBVA</span>
+                <span class="cf-bank-acc" id="bankAccount">CTA 191 05832267 0 77</span>
+                <span class="cf-bank-cci" id="bankCCI">CCI 002 19110583226707756</span>
+              </div>
+              <div class="cf-holder" id="bankHolder">—</div>
+              <p class="cf-note">Toda transferencia en Soles / Enviar Constancia al correo y/o Whatsapp</p>
+            </div>
+            <div class="cf-totals">
+              <div class="cf-tot-row">
+                <span>Total Grabado</span><span id="p_subtotal" contenteditable="true">—</span>
+              </div>
+              <div class="cf-tot-row">
+                <span>IGV <span id="p_tax_rate">18</span>%</span><span id="p_igv" contenteditable="true">—</span>
+              </div>
+              <div class="cf-tot-row cf-grand">
+                <span>Importe Total</span><span id="p_total" contenteditable="true">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template id="tmpl-interlab">
+        <div class="interlab-layout">
+          <div class="il-header">
+            <div class="il-brand">
+              <img class="il-logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
+              <div class="il-brand-info">
+                <div class="il-brand-name" id="sheetBrandName">INTERLAB PERU INVERSIONES</div>
+                <div class="il-brand-desc">Venta y Mantenimiento de Equipos e Instrumentos de Laboratorio, Balanzas
+                  Analíticas, Reactivos Químicos y Artículos de Vidrio</div>
+                <div class="il-brand-sub" id="sheetContactInfo"></div>
+                <div class="il-brand-sub" id="sheetEmail"></div>
+                <div class="il-brand-sub" id="sheetAddress"></div>
+              </div>
+            </div>
+            <div class="il-quote-box">
+              <div class="il-quote-title" id="documentTitleLabel">PROFORMA</div>
+              <div class="il-quote-no" id="p_quoteNo">—</div>
+            </div>
+          </div>
+
+          <div class="il-client-box">
+            <div class="il-client-main">
+              <div class="il-row"><span class="il-label">NOMBRE:</span><span class="il-val" id="p_clientName">—</span>
+              </div>
+              <div class="il-row"><span class="il-label">R.U.C.:</span><span class="il-val" id="p_clientDoc">—</span>
+              </div>
+              <div class="il-row"><span class="il-label">DIRECCIÓN:</span><span class="il-val"
+                  id="p_clientAddress">—</span></div>
+              <div class="il-row"><span class="il-label">ATENCIÓN AL CLIENTE:</span><span class="il-val"
+                  id="p_clientAttn">—</span></div>
+            </div>
+            <div class="il-client-meta">
+              <div class="il-row"><span class="il-label">FECHA:</span><span class="il-val" id="p_quoteDate">—</span>
+              </div>
+              <div class="il-row"><span class="il-label">MONEDA:</span><span class="il-val" id="p_currency">—</span>
+              </div>
+              <div class="il-row"><span class="il-label">TIPO PAGO:</span><span class="il-val"
+                  id="p_paymentTerms">—</span></div>
+              <div class="il-row"><span class="il-label">ENTREGA:</span><span class="il-val" id="p_delivery">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="il-intro">
+            Por medio del presente nos dirigimos a usted para saludarlo cordialmente y así mismo hacerle alcance de la
+            cotización de lo solicitado:
+          </div>
+
+          <table class="il-table">
+            <thead>
+              <tr>
+                <th class="ct-item">ITEM</th>
+                <th class="ct-code">CODIGO</th>
+                <th class="ct-cant">CANT.</th>
+                <th class="ct-um">U.M.</th>
+                <th class="ct-desc">DESCRIPCION</th>
+                <th class="ct-image">IMAGEN</th>
+                <th class="ct-price">P. UNITARIO</th>
+                <th class="ct-total">TOTAL</th>
+              </tr>
+            </thead>
+            <tbody id="p_itemsBody"></tbody>
+          </table>
+
+          <div class="il-bottom">
+            <div class="il-bank-details">
+              <div class="il-section-title">Nuestras Cuentas Bancarias a Nombre de la Empresa:</div>
+              <div class="il-holder" id="bankHolder">—</div>
+              <div class="il-accounts-list">
+                <!-- Banks injected here or hardcoded based on style -->
+                <div class="il-acc-row">
+                  <strong id="bankNameText">BBVA</strong> CTA: <span id="bankAccount">—</span> / CCI: <span
+                    id="bankCCI">—</span>
+                </div>
+              </div>
+            </div>
+            <div class="il-totals">
+              <div class="il-tot-row">
+                <span>SUB-TOTAL</span><span id="p_subtotal" contenteditable="true">—</span>
+              </div>
+              <div class="il-tot-row">
+                <span>IGV <span id="p_tax_rate">18</span>%</span><span id="p_igv" contenteditable="true">—</span>
+              </div>
+              <div class="il-tot-row il-grand">
+                <span>TOTAL</span><span id="p_total" contenteditable="true">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template id="tmpl-iceberg">
+        <div class="iceberg-layout">
+          <div class="ib-header">
+            <img class="ib-logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
+          </div>
+          <div class="ib-title" id="documentTitleLabel">COTIZACIÓN</div>
+
+          <div class="ib-client-intro">
+            Estimado Cliente: <strong id="p_clientName">—</strong><br>
+            A continuación se presentan los detalles del presupuesto solicitado.
+          </div>
+
+          <div class="ib-meta-grid">
+            <div class="ib-meta"><span class="ib-label">Fecha:</span> <span id="p_quoteDate">—</span></div>
+            <div class="ib-meta"><span class="ib-label">N° de presupuesto:</span> <span id="p_quoteNo">—</span></div>
+            <div class="ib-meta"><span class="ib-label">Moneda:</span> <span id="p_currency">—</span></div>
+          </div>
+
+          <table class="ib-table">
+            <thead>
+              <tr>
+                <th class="ct-image">IMAGEN</th>
+                <th class="ct-desc">DESCRIPCION</th>
+                <th class="ct-cant">CANT.</th>
+                <th class="ct-price">PRECIO UNIT.</th>
+                <th class="ct-total">TOTAL</th>
+              </tr>
+            </thead>
+            <tbody id="p_itemsBody"></tbody>
+          </table>
+
+          <div class="ib-grand-box">
+            <div class="ib-grand-label">Total</div>
+            <div class="ib-grand-val" id="p_total" contenteditable="true">—</div>
+          </div>
+
+          <div class="ib-footer">
+            <div class="ib-contact-line">
+              <span id="sheetEmail"></span> | <span id="sheetContactInfo"></span>
+            </div>
+            <div class="ib-banks">
+              <span id="bankNameText"></span> CTA: <span id="bankAccount"></span> | CCI: <span id="bankCCI"></span>
+            </div>
+          </div>
+        </div>
+      </template>
+
+      <template id="tmpl-global">
+        <div class="global-layout">
+          <div class="gl-header">
+            <div class="gl-brand">
+              <img class="gl-logo" id="sheetLogo" src="assets/logo.jpeg" alt="Logo" />
+            </div>
+            <div class="gl-quote-box">
+              <div class="gl-quote-title"><span id="documentTitleLabel">Presupuesto</span> # <span
+                  id="p_quoteNo">—</span></div>
+            </div>
+          </div>
+
+          <div class="gl-address-row">
+            <div class="gl-from">
+              <strong>De</strong><br>
+              <div id="sheetBrandName">GLOBAL IMPORT</div>
+              <div id="sheetAddress"></div>
+            </div>
+            <div class="gl-to">
+              <strong>Para</strong><br>
+              <div id="p_clientName">—</div>
+              <div id="p_clientAddress">—</div>
+            </div>
+          </div>
+
+          <div class="gl-dates-box">
+            <div class="gl-date-col">
+              <div class="gl-date-label">Fecha</div>
+              <div class="gl-date-val" id="p_quoteDate">—</div>
+            </div>
+            <div class="gl-date-col">
+              <div class="gl-date-label">Validez</div>
+              <div class="gl-date-val">15 días</div>
+            </div>
+            <div class="gl-date-col">
+              <div class="gl-date-label">Moneda</div>
+              <div class="gl-date-val" id="p_currency">—</div>
+            </div>
+          </div>
+
+          <table class="gl-table">
+            <thead>
+              <tr>
+                <th class="ct-item">#</th>
+                <th class="ct-desc">Descripción</th>
+                <th class="ct-price">Precio ud.</th>
+                <th class="ct-cant">Cant.</th>
+                <th class="ct-total">Importe</th>
+              </tr>
+            </thead>
+            <tbody id="p_itemsBody"></tbody>
+          </table>
+
+          <div class="gl-bottom">
+            <div class="gl-notes">
+              <strong>Términos y condiciones</strong><br>
+              <span id="p_paymentTerms">—</span><br>
+              Entrega: <span id="p_delivery">—</span>
+              <div style="margin-top:10px;">
+                <strong>Datos de Pago</strong><br>
+                <span id="bankNameText"></span> CTA: <span id="bankAccount"></span><br>
+                CCI: <span id="bankCCI"></span><br>
+                <span id="bankHolder"></span>
+              </div>
+            </div>
+            <div class="gl-totals">
+              <div class="gl-tot-row">
+                <span>Sub-Total</span><span id="p_subtotal" contenteditable="true">—</span>
+              </div>
+              <div class="gl-tot-row">
+                <span>IGV <span id="p_tax_rate">18</span>%</span><span id="p_igv" contenteditable="true">—</span>
+              </div>
+              <div class="gl-tot-row gl-grand">
+                <span>Total</span><span id="p_total" contenteditable="true">—</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+
     </section>
   </main>
 
   <!-- html2pdf (jsPDF + html2canvas) - Local version -->
   <script src="html2pdf.bundle.min.js"></script>
-  <script src="app.js?v=202602012300"></script>
+  <script src="app.v4.js"></script>
 </body>
 
 </html>

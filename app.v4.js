@@ -70,11 +70,29 @@
     const select = $("companySelect");
     if (select) select.value = companyId;
 
+    // Inject template for this company
+    const pdfRoot = $("pdfRoot");
+    const tmplId = `tmpl-${companyId === 'dtg' ? 'dtg' : companyId}`;
+    const template = $(tmplId);
+
+    // If we have a matching template, inject it. Otherwise fallback to DTG template
+    if (pdfRoot) {
+      pdfRoot.innerHTML = '';
+      if (template) {
+        pdfRoot.appendChild(template.content.cloneNode(true));
+      } else if ($("tmpl-dtg")) {
+        pdfRoot.appendChild($("tmpl-dtg").content.cloneNode(true));
+      }
+    }
+
     // Update branding
     updateBranding();
 
     // Apply company theme
     applyTheme(company);
+
+    // Sync preview logic to populate the newly injected template nodes
+    syncPreview();
   }
 
   function applyTheme(company) {
@@ -673,7 +691,7 @@
       state.items.forEach((it, idx) => {
         const amount = toNumber(it.cant) * toNumber(it.priceIncIGV);
         const tr = document.createElement("tr");
-        // Description cell: product name + model/brand below
+
         let descHtml = `<div style="font-weight:700;font-size:10px;">${escapeHtml(it.desc || '')}</div>`;
         if (it.modelo || it.marca) {
           descHtml += `<div style="font-size:9px;color:#555;margin-top:1px;">`;
@@ -682,14 +700,60 @@
           if (it.marca) descHtml += `${escapeHtml(it.marca)}`;
           descHtml += `</div>`;
         }
-        tr.innerHTML = `
-          <td class="ct-item">${idx + 1}</td>
-          <td class="ct-desc">${descHtml}</td>
-          <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
-          <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
-          <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
-          <td class="ct-total">${fmtMoney(amount)}</td>
-        `;
+
+        const imgHtml = it.image ? `<img src="${it.image}" style="max-height: 40px; border-radius: 4px;"/>` : '';
+        const cId = state.selectedCompany?.id || 'dtg';
+        let trHtml = '';
+
+        if (cId === 'interlab') {
+          trHtml = `
+            <td class="ct-item">${idx + 1}</td>
+            <td class="ct-code">${escapeHtml(it.modelo || '-')}</td>
+            <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
+            <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
+            <td class="ct-desc">${descHtml}</td>
+            <td class="ct-image" style="text-align:center; vertical-align:middle;">${imgHtml}</td>
+            <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+            <td class="ct-total">${fmtMoney(amount)}</td>
+          `;
+        } else if (cId === 'coldfrog') {
+          trHtml = `
+            <td class="ct-image" style="text-align:center; vertical-align:middle; width:50px;">${imgHtml}</td>
+            <td class="ct-desc">${descHtml}</td>
+            <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
+            <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
+            <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+            <td class="ct-total">${fmtMoney(amount)}</td>
+          `;
+        } else if (cId === 'iceberg') {
+          trHtml = `
+            <td class="ct-image" style="text-align:center; vertical-align:middle; width:50px;">${imgHtml}</td>
+            <td class="ct-desc">${descHtml}</td>
+            <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
+            <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+            <td class="ct-total">${fmtMoney(amount)}</td>
+          `;
+        } else if (cId === 'global') {
+          trHtml = `
+            <td class="ct-item">${idx + 1}</td>
+            <td class="ct-desc">${descHtml}</td>
+            <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+            <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
+            <td class="ct-total">${fmtMoney(amount)}</td>
+          `;
+        } else {
+          // default (dtg)
+          trHtml = `
+            <td class="ct-item">${idx + 1}</td>
+            <td class="ct-desc">${descHtml}</td>
+            <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
+            <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
+            <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+            <td class="ct-total">${fmtMoney(amount)}</td>
+          `;
+        }
+
+        tr.innerHTML = trHtml;
         pBody.appendChild(tr);
       });
     }
@@ -884,9 +948,16 @@
     // Company selector
     const companySelect = $("companySelect");
     if (companySelect) {
-      companySelect.addEventListener("change", (e) => {
-        selectCompany(e.target.value);
-      });
+      function handleCompanyChange(e) {
+        try {
+          console.log("Company changed via UI:", e.target.value);
+          selectCompany(e.target.value);
+        } catch (err) {
+          alert("Error changing company: " + err.message + "\nStack: " + err.stack);
+        }
+      }
+      companySelect.addEventListener("change", handleCompanyChange);
+      companySelect.addEventListener("input", handleCompanyChange);
     }
 
     // form changes sync

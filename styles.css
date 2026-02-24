@@ -1360,3 +1360,683 @@ th.right {
   color: #555;
   margin-top: 1px;
 }
+
+/* =========================================
+   TEMPLATE: COLDFROG STORE
+   ========================================= */
+.coldfrog-layout {
+  font-family: var(--theme-body-font);
+  font-size: 11px;
+}
+
+.cf-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.cf-brand {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.cf-logo {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.cf-brand-name {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--theme-primary);
+  margin-bottom: 4px;
+}
+
+.cf-brand-sub {
+  font-size: 10px;
+  color: #666;
+}
+
+.cf-quote-box {
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 12px 20px;
+  text-align: center;
+  min-width: 180px;
+}
+
+.cf-quote-title {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--theme-primary);
+  margin: 8px 0;
+  letter-spacing: 0.05em;
+}
+
+.cf-quote-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cf-client-box {
+  display: flex;
+  gap: 20px;
+  background: #f2f2f2;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 20px;
+}
+
+.cf-client-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cf-client-row {
+  display: flex;
+  gap: 8px;
+}
+
+.cf-label {
+  font-weight: 700;
+  color: var(--theme-secondary);
+  min-width: 80px;
+}
+
+.cf-val {
+  color: #111;
+  font-weight: 600;
+}
+
+.cf-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 12px;
+}
+
+.cf-table th {
+  background: var(--theme-secondary);
+  color: #fff;
+  padding: 8px;
+  font-size: 10px;
+  text-align: left;
+  border-radius: 4px;
+}
+
+.cf-table td {
+  padding: 8px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.cf-table .ct-price,
+.cf-table .ct-total,
+.cf-table .ct-cant,
+.cf-table th.ct-price,
+.cf-table th.ct-total,
+.cf-table th.ct-cant {
+  text-align: right;
+}
+
+.cf-words-row {
+  font-size: 10px;
+  font-weight: 600;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+.cf-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  page-break-inside: avoid;
+}
+
+.cf-bank-details {
+  flex: 1;
+  background: #f2f2f2;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.cf-section-title {
+  font-weight: 700;
+  font-size: 12px;
+  color: var(--theme-primary);
+  margin-bottom: 8px;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 4px;
+}
+
+.cf-bank-row {
+  font-size: 11px;
+  font-weight: 600;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 6px;
+}
+
+.cf-bank-name {
+  color: var(--theme-primary);
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.cf-note {
+  font-size: 9px;
+  color: #666;
+  margin-top: 8px;
+  font-style: italic;
+}
+
+.cf-totals {
+  width: 250px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.cf-tot-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: #f2f2f2;
+  border-radius: 6px;
+  font-weight: 600;
+  color: #333;
+}
+
+.cf-grand {
+  background: var(--theme-primary);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   TEMPLATE: INTERLAB PERU
+   ========================================= */
+.interlab-layout {
+  font-family: var(--theme-body-font);
+  font-size: 10px;
+}
+
+.il-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  border-bottom: 2px solid var(--theme-primary);
+  padding-bottom: 10px;
+}
+
+.il-brand {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+.il-logo {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.il-brand-info {
+  max-width: 350px;
+}
+
+.il-brand-name {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--theme-primary);
+  margin-bottom: 4px;
+}
+
+.il-brand-desc {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--theme-secondary);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.il-brand-sub {
+  font-size: 9px;
+  color: #555;
+}
+
+.il-quote-box {
+  background: #eaeaea;
+  padding: 10px 20px;
+  text-align: center;
+  border: 1px solid #ccc;
+  min-width: 150px;
+}
+
+.il-quote-title {
+  font-weight: 700;
+  font-size: 14px;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.il-quote-no {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 16px;
+  color: var(--theme-primary);
+}
+
+.il-client-box {
+  display: flex;
+  border: 1px solid #000;
+  margin-bottom: 12px;
+}
+
+.il-client-main {
+  flex: 2;
+  padding: 8px;
+  border-right: 1px solid #000;
+}
+
+.il-client-meta {
+  flex: 1;
+  padding: 8px;
+}
+
+.il-row {
+  display: flex;
+  margin-bottom: 4px;
+}
+
+.il-label {
+  font-weight: 700;
+  width: 110px;
+  color: #000;
+}
+
+.il-val {
+  flex: 1;
+  color: #222;
+}
+
+.il-intro {
+  margin-bottom: 12px;
+  font-style: italic;
+  color: #333;
+}
+
+.il-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 16px;
+  border: 1px solid #000;
+}
+
+.il-table th {
+  background: #f0f0f0;
+  color: #000;
+  border: 1px solid #000;
+  padding: 6px;
+  font-size: 9px;
+  text-align: center;
+}
+
+.il-table td {
+  border: 1px solid #000;
+  padding: 6px;
+  text-align: center;
+}
+
+.il-table .ct-desc {
+  text-align: left;
+}
+
+.il-table .ct-price,
+.il-table .ct-total {
+  text-align: right;
+}
+
+.il-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  page-break-inside: avoid;
+}
+
+.il-bank-details {
+  flex: 1;
+  border: 1px solid #000;
+  padding: 10px;
+}
+
+.il-section-title {
+  font-weight: 700;
+  text-decoration: underline;
+  margin-bottom: 8px;
+}
+
+.il-holder {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.il-acc-row {
+  font-size: 9px;
+  margin-bottom: 4px;
+}
+
+.il-totals {
+  width: 200px;
+  border: 1px solid #000;
+}
+
+.il-tot-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 10px;
+  border-bottom: 1px solid #000;
+  font-weight: 600;
+}
+
+.il-tot-row:last-child {
+  border-bottom: none;
+}
+
+.il-grand {
+  background: #f0f0f0;
+  font-weight: 700;
+  font-size: 12px;
+}
+
+
+/* =========================================
+   TEMPLATE: ICEBERG IMPORTS
+   ========================================= */
+.iceberg-layout {
+  font-family: var(--theme-body-font);
+  font-size: 11px;
+  color: #333;
+}
+
+.ib-header {
+  margin-bottom: 20px;
+}
+
+.ib-logo {
+  height: 60px;
+  object-fit: contain;
+}
+
+.ib-title {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 24px;
+  color: var(--theme-primary);
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.ib-client-intro {
+  margin-bottom: 20px;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.ib-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  background: #f9fafb;
+  padding: 12px;
+  border-radius: 4px;
+  margin-bottom: 24px;
+}
+
+.ib-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.ib-label {
+  font-weight: 700;
+  color: var(--theme-secondary);
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.ib-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+
+.ib-table th {
+  border-bottom: 2px solid var(--theme-secondary);
+  color: var(--theme-primary);
+  padding: 10px 8px;
+  text-align: left;
+  font-size: 10px;
+}
+
+.ib-table td {
+  padding: 12px 8px;
+  border-bottom: 1px solid #eaeaea;
+}
+
+.ib-table .ct-price,
+.ib-table .ct-total,
+.ib-table th.ct-price,
+.ib-table th.ct-total {
+  text-align: right;
+}
+
+.ib-grand-box {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 20px;
+  background: #f9fafb;
+  padding: 16px 24px;
+  border-radius: 4px;
+  margin-left: auto;
+  width: 300px;
+  page-break-inside: avoid;
+}
+
+.ib-grand-label {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--theme-secondary);
+  text-transform: uppercase;
+}
+
+.ib-grand-val {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--theme-primary);
+}
+
+.ib-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eaeaea;
+  text-align: center;
+  font-size: 10px;
+  color: var(--theme-secondary);
+  page-break-inside: avoid;
+}
+
+.ib-contact-line {
+  margin-bottom: 8px;
+}
+
+
+/* =========================================
+   TEMPLATE: GLOBAL IMPORT
+   ========================================= */
+.global-layout {
+  font-family: var(--theme-body-font);
+  font-size: 11px;
+}
+
+.gl-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+}
+
+.gl-logo {
+  height: 50px;
+  object-fit: contain;
+}
+
+.gl-quote-title {
+  font-family: var(--theme-header-font);
+  font-weight: 700;
+  font-size: 20px;
+  color: var(--theme-primary);
+  /* Usually an orange mapping */
+}
+
+.gl-address-row {
+  display: flex;
+  gap: 40px;
+  margin-bottom: 24px;
+}
+
+.gl-from,
+.gl-to {
+  flex: 1;
+  line-height: 1.5;
+}
+
+.gl-from strong,
+.gl-to strong {
+  display: inline-block;
+  margin-bottom: 6px;
+  color: var(--theme-secondary);
+  text-transform: uppercase;
+  font-size: 10px;
+}
+
+.gl-dates-box {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  border: 1px solid var(--theme-primary);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 24px;
+}
+
+.gl-date-col {
+  padding: 10px;
+  border-right: 1px solid var(--theme-primary);
+}
+
+.gl-date-col:last-child {
+  border-right: none;
+}
+
+.gl-date-label {
+  font-weight: 700;
+  color: var(--theme-primary);
+  font-size: 10px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.gl-date-val {
+  font-weight: 600;
+  color: #333;
+}
+
+.gl-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 24px;
+}
+
+.gl-table th {
+  background: var(--theme-primary);
+  color: #fff;
+  padding: 10px;
+  text-align: left;
+  font-size: 11px;
+  border: none;
+}
+
+.gl-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+}
+
+.gl-table .ct-price,
+.gl-table .ct-total,
+.gl-table .ct-cant,
+.gl-table th.ct-price,
+.gl-table th.ct-total,
+.gl-table th.ct-cant {
+  text-align: right;
+}
+
+.gl-bottom {
+  display: flex;
+  justify-content: space-between;
+  gap: 40px;
+  page-break-inside: avoid;
+}
+
+.gl-notes {
+  flex: 1;
+  font-size: 10px;
+  line-height: 1.6;
+  color: #444;
+}
+
+.gl-notes strong {
+  color: var(--theme-primary);
+  display: inline-block;
+  margin-bottom: 4px;
+}
+
+.gl-totals {
+  width: 250px;
+}
+
+.gl-tot-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 10px;
+  border-bottom: 1px solid #eee;
+  font-weight: 600;
+  color: #333;
+}
+
+.gl-grand {
+  background: var(--theme-primary);
+  color: #fff;
+  font-size: 14px;
+  border-radius: 4px;
+  border: none;
+  margin-top: 8px;
+}
