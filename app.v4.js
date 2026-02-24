@@ -736,6 +736,7 @@
         } else if (cId === 'global') {
           trHtml = `
             <td class="ct-item">${idx + 1}</td>
+            <td class="ct-image" style="text-align:center; vertical-align:middle; width:50px;">${imgHtml}</td>
             <td class="ct-desc">${descHtml}</td>
             <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
             <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
@@ -745,6 +746,7 @@
           // default (dtg)
           trHtml = `
             <td class="ct-item">${idx + 1}</td>
+            <td class="ct-image" style="text-align:center; vertical-align:middle; width:50px;">${imgHtml}</td>
             <td class="ct-desc">${descHtml}</td>
             <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
             <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
