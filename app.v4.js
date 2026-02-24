@@ -934,12 +934,12 @@
     syncPreview();
   }
 
-  function wire() {
+  async function wire() {
     // Check maintenance mode first
-    checkMaintenance();
+    await checkMaintenance();
 
-    // Load companies first
-    loadCompanies();
+    // Load companies first (AWAIT is critical so the template injects before adding items)
+    await loadCompanies();
 
     // defaults
     $("quoteDate").value = todayISO();

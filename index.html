@@ -344,10 +344,19 @@
                 <span class="cf-label">Señor(es):</span><span class="cf-val" id="p_clientName">—</span>
               </div>
               <div class="cf-client-row">
+                <span class="cf-label">D.N.I/R.U.C:</span><span class="cf-val" id="p_clientDoc">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">Atención:</span><span class="cf-val" id="p_clientAttn">—</span>
+              </div>
+              <div class="cf-client-row">
                 <span class="cf-label">Dirección:</span><span class="cf-val" id="p_clientAddress">—</span>
               </div>
               <div class="cf-client-row">
-                <span class="cf-label">D.N.I/R.U.C:</span><span class="cf-val" id="p_clientDoc">—</span>
+                <span class="cf-label">Distrito:</span><span class="cf-val" id="p_clientDistrict">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">Depto:</span><span class="cf-val" id="p_clientDepartment">—</span>
               </div>
             </div>
             <div class="cf-client-col">
@@ -359,6 +368,9 @@
               </div>
               <div class="cf-client-row">
                 <span class="cf-label">Forma de Pago:</span><span class="cf-val" id="p_paymentTerms">—</span>
+              </div>
+              <div class="cf-client-row">
+                <span class="cf-label">Entrega:</span><span class="cf-val" id="p_delivery">—</span>
               </div>
             </div>
           </div>
@@ -433,10 +445,14 @@
               </div>
               <div class="il-row"><span class="il-label">R.U.C.:</span><span class="il-val" id="p_clientDoc">—</span>
               </div>
-              <div class="il-row"><span class="il-label">DIRECCIÓN:</span><span class="il-val"
-                  id="p_clientAddress">—</span></div>
               <div class="il-row"><span class="il-label">ATENCIÓN AL CLIENTE:</span><span class="il-val"
                   id="p_clientAttn">—</span></div>
+              <div class="il-row"><span class="il-label">DIRECCIÓN:</span><span class="il-val"
+                  id="p_clientAddress">—</span></div>
+              <div class="il-row"><span class="il-label">DISTRITO:</span><span class="il-val"
+                  id="p_clientDistrict">—</span></div>
+              <div class="il-row"><span class="il-label">DEPARTAMENTO:</span><span class="il-val"
+                  id="p_clientDepartment">—</span></div>
             </div>
             <div class="il-client-meta">
               <div class="il-row"><span class="il-label">FECHA:</span><span class="il-val" id="p_quoteDate">—</span>
@@ -506,14 +522,21 @@
           <div class="ib-title" id="documentTitleLabel">COTIZACIÓN</div>
 
           <div class="ib-client-intro">
-            Estimado Cliente: <strong id="p_clientName">—</strong><br>
-            A continuación se presentan los detalles del presupuesto solicitado.
+            <strong>Cliente:</strong> <span id="p_clientName">—</span> | <strong>RUC:</strong> <span
+              id="p_clientDoc">—</span><br>
+            <strong>Atención:</strong> <span id="p_clientAttn">—</span><br>
+            <strong>Dirección:</strong> <span id="p_clientAddress">—</span>, <span id="p_clientDistrict">—</span>, <span
+              id="p_clientDepartment">—</span><br>
+            <br>
+            Estimado Cliente: A continuación se presentan los detalles del presupuesto solicitado.
           </div>
 
           <div class="ib-meta-grid">
             <div class="ib-meta"><span class="ib-label">Fecha:</span> <span id="p_quoteDate">—</span></div>
             <div class="ib-meta"><span class="ib-label">N° de presupuesto:</span> <span id="p_quoteNo">—</span></div>
             <div class="ib-meta"><span class="ib-label">Moneda:</span> <span id="p_currency">—</span></div>
+            <div class="ib-meta"><span class="ib-label">Cond. Venta:</span> <span id="p_paymentTerms">—</span></div>
+            <div class="ib-meta"><span class="ib-label">Entrega:</span> <span id="p_delivery">—</span></div>
           </div>
 
           <table class="ib-table">
@@ -566,7 +589,10 @@
             <div class="gl-to">
               <strong>Para</strong><br>
               <div id="p_clientName">—</div>
-              <div id="p_clientAddress">—</div>
+              <div>RUC: <span id="p_clientDoc">—</span></div>
+              <div>Atención: <span id="p_clientAttn">—</span></div>
+              <div>Dirección: <span id="p_clientAddress">—</span>, <span id="p_clientDistrict">—</span>, <span
+                  id="p_clientDepartment">—</span></div>
             </div>
           </div>
 
