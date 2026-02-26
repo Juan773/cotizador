@@ -137,6 +137,17 @@
     // Update App Interface Accents
     root.style.setProperty('--accent', t.accent);
 
+    // Toggle specific fields for Global Import
+    if (company.id === 'global') {
+      if ($("currencySelectWrap")) $("currencySelectWrap").style.display = "none";
+      if ($("currencyInputWrap")) $("currencyInputWrap").style.display = "block";
+      if ($("validityWrap")) $("validityWrap").style.display = "block";
+    } else {
+      if ($("currencySelectWrap")) $("currencySelectWrap").style.display = "block";
+      if ($("currencyInputWrap")) $("currencyInputWrap").style.display = "none";
+      if ($("validityWrap")) $("validityWrap").style.display = "none";
+    }
+
     // Apply Layout Variant (New)
     const sheetRoot = document.getElementById("pdfRoot");
     if (sheetRoot) {
@@ -251,12 +262,17 @@
     return local.toISOString().slice(0, 10);
   }
 
-  function fmtMoney(value) {
-    const curr = $("currency").value || "S/";
+  function getCurrency() {
+    return (state.selectedCompany?.id === 'global') ? ($("currencyInput")?.value || "S/") : ($("currency")?.value || "S/");
+  }
+
+  function fmtMoney(value, includeCurrency = true) {
+    const curr = includeCurrency ? getCurrency() : '';
     const n = Number(value || 0);
     // Keep it simple and PDF-safe (no Intl locale dependence for canvas)
     const fixed = n.toFixed(2);
-    return `${curr} ${fixed.replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+    const formatted = fixed.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    return curr ? `${curr} ${formatted}` : formatted;
   }
 
   // Number only (no currency symbol) — for the classic totals box
@@ -673,7 +689,8 @@
     setText("p_clientAddress", $("clientAddress").value);
     setText("p_clientDepartment", $("clientDepartment").value);
     setText("p_clientDistrict", $("clientDistrict").value);
-    setText("p_currency", $("currency").value);
+    setText("p_currency", getCurrency());
+    setText("p_validity", $("validity")?.value || "15 días");
 
     // Condiciones
     setText("p_paymentTerms", $("paymentTerms").value);
@@ -738,9 +755,9 @@
             <td class="ct-item">${idx + 1}</td>
             <td class="ct-image" style="text-align:center; vertical-align:middle; width:50px;">${imgHtml}</td>
             <td class="ct-desc">${descHtml}</td>
-            <td class="ct-price">${fmtMoney(it.priceIncIGV)}</td>
+            <td class="ct-price">${fmtMoney(it.priceIncIGV, false)}</td>
             <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
-            <td class="ct-total">${fmtMoney(amount)}</td>
+            <td class="ct-total">${fmtMoney(amount, false)}</td>
           `;
         } else {
           // default (dtg)
@@ -762,7 +779,7 @@
 
     // Amount in words
     const totForWords = computeTotals();
-    const curr = $("currency").value || 'S/';
+    const curr = getCurrency();
     const pAmountWords = $("p_amountWords");
     if (pAmountWords) {
       pAmountWords.textContent = numberToWords(totForWords.total, curr);

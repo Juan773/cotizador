@@ -100,12 +100,20 @@
             <label>Entrega</label>
             <input id="delivery" placeholder="24-48 horas" />
           </div>
-          <div class="field">
+          <div class="field" id="currencySelectWrap">
             <label>Moneda</label>
             <select id="currency">
               <option value="S/">S/ (PEN)</option>
               <option value="$">$ (USD)</option>
             </select>
+          </div>
+          <div class="field" id="currencyInputWrap" style="display:none;">
+            <label>Moneda</label>
+            <input id="currencyInput" value="S/" placeholder="S/ o $" />
+          </div>
+          <div class="field" id="validityWrap" style="display:none;">
+            <label>Validez</label>
+            <input id="validity" value="15 días" />
           </div>
           <div class="field">
             <label>Cond. Venta</label>
@@ -345,9 +353,6 @@
                 <span class="cf-label">D.N.I/R.U.C:</span><span class="cf-val" id="p_clientDoc">—</span>
               </div>
               <div class="cf-client-row">
-                <span class="cf-label">Atención:</span><span class="cf-val" id="p_clientAttn">—</span>
-              </div>
-              <div class="cf-client-row">
                 <span class="cf-label">Dirección:</span><span class="cf-val" id="p_clientAddress">—</span>
               </div>
               <div class="cf-client-row">
@@ -365,10 +370,7 @@
                 <span class="cf-label">Moneda:</span><span class="cf-val" id="p_currency">—</span>
               </div>
               <div class="cf-client-row">
-                <span class="cf-label">Forma de Pago:</span><span class="cf-val" id="p_paymentTerms">—</span>
-              </div>
-              <div class="cf-client-row">
-                <span class="cf-label">Entrega:</span><span class="cf-val" id="p_delivery">—</span>
+                <span class="cf-label">Plazo de Entrega:</span><span class="cf-val" id="p_delivery">—</span>
               </div>
             </div>
           </div>
@@ -432,7 +434,8 @@
               </div>
             </div>
             <div class="il-quote-box">
-              <div class="il-quote-title" id="documentTitleLabel">PROFORMA</div>
+              <div class="il-quote-title" id="documentTitleLabel" style="font-family: var(--theme-header-font);">
+                COTIZACIÓN</div>
               <div class="il-quote-no" id="p_quoteNo">—</div>
             </div>
           </div>
@@ -455,8 +458,6 @@
             <div class="il-client-meta">
               <div class="il-row"><span class="il-label">FECHA:</span><span class="il-val" id="p_quoteDate">—</span>
               </div>
-              <div class="il-row"><span class="il-label">MONEDA:</span><span class="il-val" id="p_currency">—</span>
-              </div>
               <div class="il-row"><span class="il-label">TIPO PAGO:</span><span class="il-val"
                   id="p_paymentTerms">—</span></div>
               <div class="il-row"><span class="il-label">ENTREGA:</span><span class="il-val" id="p_delivery">—</span>
@@ -476,7 +477,7 @@
                 <th class="ct-code">CODIGO</th>
                 <th class="ct-cant">CANT.</th>
                 <th class="ct-um">U.M.</th>
-                <th class="ct-desc">DESCRIPCION</th>
+                <th class="ct-desc">PRODUCTOS</th>
                 <th class="ct-image">IMAGEN</th>
                 <th class="ct-price">P. UNITARIO</th>
                 <th class="ct-total">TOTAL</th>
@@ -540,7 +541,7 @@
           <table class="ib-table">
             <thead>
               <tr>
-                <th class="ct-image">IMAGEN</th>
+                <th class="ct-image">IMG</th>
                 <th class="ct-desc">DESCRIPCION</th>
                 <th class="ct-cant">CANT.</th>
                 <th class="ct-price">PRECIO UNIT.</th>
@@ -601,7 +602,7 @@
             </div>
             <div class="gl-date-col">
               <div class="gl-date-label">Validez</div>
-              <div class="gl-date-val">15 días</div>
+              <div class="gl-date-val" id="p_validity">15 días</div>
             </div>
             <div class="gl-date-col">
               <div class="gl-date-label">Moneda</div>
@@ -613,7 +614,7 @@
             <thead>
               <tr>
                 <th class="ct-item">Ítem</th>
-                <th class="ct-image">Imagen</th>
+                <th class="ct-image">IMG REF</th>
                 <th class="ct-desc">Descripción</th>
                 <th class="ct-price">Precio Unit.</th>
                 <th class="ct-cant">Cantidad</th>
