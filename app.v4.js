@@ -1115,6 +1115,53 @@
     reader.readAsArrayBuffer(file);
   }
 
+  function exportToExcel() {
+    if (typeof XLSX === 'undefined') {
+      alert("La librería para exportar Excel no está disponible. Verifica tu conexión a internet.");
+      return;
+    }
+
+    if (state.items.length === 0 || (state.items.length === 1 && state.items[0].desc === "")) {
+      alert("No hay ítems detallados para exportar.");
+      return;
+    }
+
+    // Prepare data array for SheetJS
+    const exportData = state.items.map((it, idx) => ({
+      "ITEM": idx + 1,
+      "CANTIDAD": it.cant,
+      "UNIDAD": it.unit,
+      "DESCRIPCION": it.desc,
+      "PRECIO UNIT": it.priceIncIGV,
+      "TOTAL": (toNumber(it.cant) * toNumber(it.priceIncIGV)).toFixed(2)
+    }));
+
+    // Generate worksheet
+    const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+    // Adjust column widths automatically
+    const wscols = [
+      { wch: 8 },  // ITEM
+      { wch: 12 }, // CANTIDAD
+      { wch: 10 }, // UNIDAD
+      { wch: 60 }, // DESCRIPCION
+      { wch: 15 }, // PRECIO UNIT
+      { wch: 15 }  // TOTAL
+    ];
+    worksheet['!cols'] = wscols;
+
+    // Create workbook and append sheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Cotizacion");
+
+    // File naming based on Quote Number
+    const quoteNo = $("quoteNo")?.value || "S/N";
+    const filename = `Cotizacion_${quoteNo}.xlsx`;
+
+    // Trigger download
+    XLSX.writeFile(workbook, filename);
+  }
+
   async function wire() {
     // Check maintenance mode first
     await checkMaintenance();
@@ -1192,8 +1239,14 @@
       });
     }
 
-    $("btnGenerate").addEventListener("click", generatePDF);
-    $("btnReset").addEventListener("click", resetAll);
+    const btnGenerate = $("btnGenerate");
+    if (btnGenerate) btnGenerate.addEventListener("click", generatePDF);
+
+    const btnExportExcel = $("btnExportExcel");
+    if (btnExportExcel) btnExportExcel.addEventListener("click", exportToExcel);
+
+    const btnReset = $("btnReset");
+    if (btnReset) btnReset.addEventListener("click", resetAll);
 
     // Manual total input
     const manualTotalInput = $("manualTotal");
