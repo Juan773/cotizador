@@ -1121,42 +1121,40 @@
       return;
     }
 
-    if (state.items.length === 0 || (state.items.length === 1 && state.items[0].desc === "")) {
-      alert("No hay ítems detallados para exportar.");
-      return;
-    }
-
-    // Prepare data array for SheetJS
-    const exportData = state.items.map((it, idx) => ({
-      "ITEM": idx + 1,
-      "CANTIDAD": it.cant,
-      "UNIDAD": it.unit,
-      "DESCRIPCION": it.desc,
-      "PRECIO UNIT": it.priceIncIGV,
-      "TOTAL": (toNumber(it.cant) * toNumber(it.priceIncIGV)).toFixed(2)
-    }));
+    // Prepare empty template data array for SheetJS
+    const exportData = [
+      {
+        "CANTIDAD": 1,
+        "UNIDAD": "UND",
+        "DESCRIPCION": "Ejemplo de producto (Borra esta fila e ingresa los tuyos)",
+        "PRECIO UNIT.": 100.00
+      },
+      { "CANTIDAD": "", "UNIDAD": "", "DESCRIPCION": "", "PRECIO UNIT.": "" },
+      { "CANTIDAD": "", "UNIDAD": "", "DESCRIPCION": "", "PRECIO UNIT.": "" },
+      { "CANTIDAD": "", "UNIDAD": "", "DESCRIPCION": "", "PRECIO UNIT.": "" },
+      { "CANTIDAD": "", "UNIDAD": "", "DESCRIPCION": "", "PRECIO UNIT.": "" },
+      { "CANTIDAD": "", "UNIDAD": "", "DESCRIPCION": "", "PRECIO UNIT.": "" },
+      { "CANTIDAD": "", "UNIDAD": "", "DESCRIPCION": "", "PRECIO UNIT.": "" }
+    ];
 
     // Generate worksheet
     const worksheet = XLSX.utils.json_to_sheet(exportData);
 
     // Adjust column widths automatically
     const wscols = [
-      { wch: 8 },  // ITEM
       { wch: 12 }, // CANTIDAD
       { wch: 10 }, // UNIDAD
-      { wch: 60 }, // DESCRIPCION
-      { wch: 15 }, // PRECIO UNIT
-      { wch: 15 }  // TOTAL
+      { wch: 80 }, // DESCRIPCION
+      { wch: 15 }  // PRECIO UNIT
     ];
     worksheet['!cols'] = wscols;
 
     // Create workbook and append sheet
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Cotizacion");
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Plantilla");
 
-    // File naming based on Quote Number
-    const quoteNo = $("quoteNo")?.value || "S/N";
-    const filename = `Cotizacion_${quoteNo}.xlsx`;
+    // File naming
+    const filename = `Plantilla_Cotizador.xlsx`;
 
     // Trigger download
     XLSX.writeFile(workbook, filename);
