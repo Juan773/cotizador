@@ -517,7 +517,13 @@
     let subtotal = state.items.reduce((acc, it) => acc + toNumber(it.cant) * toNumber(it.priceIncIGV), 0);
     const discount = toNumber($("discount").value);
     let taxable = Math.max(0, subtotal - discount);
-    const rate = toNumber($("taxRate").value) / 100;
+
+    let rate = toNumber($("taxRate").value) / 100;
+    const btnToggleIgv = $("btnToggleIgv");
+    if (btnToggleIgv && btnToggleIgv.getAttribute("data-igv") === "none") {
+      rate = 0;
+    }
+
     let tax = taxable * rate;
     let total = taxable + tax;
 
@@ -794,7 +800,10 @@
     if (pSubtotal && document.activeElement !== pSubtotal) {
       pSubtotal.textContent = fmtNum(t.subtotal);
     }
-    if ($("p_tax_rate")) $("p_tax_rate").textContent = $("taxRate").value;
+    if ($("p_tax_rate")) {
+      const btnToggleIgv = $("btnToggleIgv");
+      $("p_tax_rate").textContent = (btnToggleIgv && btnToggleIgv.getAttribute("data-igv") === "none") ? "0" : $("taxRate").value;
+    }
     if (pIgv && document.activeElement !== pIgv) {
       pIgv.textContent = fmtNum(t.tax);
     }
@@ -1109,6 +1118,26 @@
     if (btnImportExcel && excelUpload) {
       btnImportExcel.addEventListener("click", () => excelUpload.click());
       excelUpload.addEventListener("change", handleExcelImport);
+    }
+
+    const btnToggleIgv = $("btnToggleIgv");
+    if (btnToggleIgv) {
+      btnToggleIgv.addEventListener("click", () => {
+        if (btnToggleIgv.getAttribute("data-igv") === "add") {
+          btnToggleIgv.setAttribute("data-igv", "none");
+          btnToggleIgv.textContent = "Sin IGV";
+          btnToggleIgv.style.color = "#ef4444";
+          btnToggleIgv.style.borderColor = "#fca5a5";
+          btnToggleIgv.style.backgroundColor = "#fef2f2";
+        } else {
+          btnToggleIgv.setAttribute("data-igv", "add");
+          btnToggleIgv.textContent = "Con IGV";
+          btnToggleIgv.style.color = "";
+          btnToggleIgv.style.borderColor = "";
+          btnToggleIgv.style.backgroundColor = "";
+        }
+        syncPreview();
+      });
     }
 
     $("btnGenerate").addEventListener("click", generatePDF);
