@@ -138,7 +138,13 @@
           <div id="itemsBody" class="items__body"></div>
 
           <div class="items__footer">
-            <button id="btnAddItem" class="btn btn--secondary" type="button">+ Agregar ítem</button>
+            <div style="display: flex; gap: 10px;">
+              <button id="btnAddItem" class="btn btn--secondary" type="button">+ Agregar ítem</button>
+              <input type="file" id="excelUpload" accept=".xlsx, .xls" style="display: none;" />
+              <button id="btnImportExcel" class="btn btn--secondary" type="button"
+                style="background-color: #10b981; color: white; border-color: #10b981;"
+                title="Importar formato de Excel">📥 Importar Excel</button>
+            </div>
             <div class="taxbox">
               <div class="field inline">
                 <label>IGV %</label>
@@ -656,6 +662,8 @@
 
   <!-- html2pdf (jsPDF + html2canvas) - Local version -->
   <script src="html2pdf.bundle.min.js"></script>
+  <!-- SheetJS for Excel Parsing -->
+  <script src="https://cdn.sheetjs.com/xlsx-latest/package/dist/xlsx.full.min.js"></script>
   <script src="app.v4.js"></script>
 </body>
 

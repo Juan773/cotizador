@@ -953,6 +953,107 @@
     syncPreview();
   }
 
+  function handleExcelImport(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    // Reset input so the same file could be selected again
+    e.target.value = "";
+
+    if (typeof XLSX === 'undefined') {
+      alert("La librería para importar Excel no está disponible. Verifica tu conexión a internet.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (evt) {
+      try {
+        const data = new Uint8Array(evt.target.result);
+        const workbook = XLSX.read(data, { type: 'array' });
+        const firstSheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[firstSheetName];
+        const rows = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        if (!rows || rows.length < 2) {
+          alert("El archivo Excel parece estar vacío o no tiene un formato reconocido.");
+          return;
+        }
+
+        // Scan the first few rows to find the headers row
+        let headerRowIndex = 0;
+        for (let i = 0; i < Math.min(10, rows.length); i++) {
+          if (rows[i] && rows[i].filter(cell => typeof cell === 'string' && cell.trim() !== "").length >= 2) {
+            headerRowIndex = i;
+            break;
+          }
+        }
+
+        const headers = rows[headerRowIndex].map(h => typeof h === 'string' ? h.toLowerCase().trim() : "");
+
+        let descIdx = -1, cantIdx = -1, priceIdx = -1, unitIdx = -1;
+
+        headers.forEach((h, idx) => {
+          if (h.includes("descrip") || h.includes("material") || h.includes("producto")) descIdx = idx;
+          else if (h === "cant" || h.includes("cant.") || h.includes("cantidad")) cantIdx = idx;
+          else if (h.includes("p.u") || h.includes("precio") || h.includes("unitario")) priceIdx = idx;
+          else if (h.includes("und") || h.includes("unid") || h.includes("u.m")) unitIdx = idx;
+        });
+
+        // Fallbacks if exact headers are not found
+        if (descIdx === -1) {
+          descIdx = headers.findIndex(h => h && h.length > 5 && !h.includes("n°") && !h.includes("cód"));
+          if (descIdx === -1) descIdx = 1; // Default to column B if no good header is found
+        }
+        if (cantIdx === -1) cantIdx = headers.findIndex(h => h && h.includes("cant"));
+        if (priceIdx === -1) priceIdx = headers.findIndex(h => h && (h.includes("p.u") || h.includes("precio")));
+
+        let importedCount = 0;
+
+        // Clear default empty initial item if it exists
+        if (state.items.length === 1 && state.items[0].desc === "" && state.items[0].priceIncIGV === 0) {
+          state.items = [];
+        }
+
+        for (let i = headerRowIndex + 1; i < rows.length; i++) {
+          const row = rows[i];
+          if (!row || row.length === 0) continue;
+
+          const desc = descIdx >= 0 && row[descIdx] ? String(row[descIdx]).trim() : "";
+          if (!desc) continue; // Skip empty rows
+
+          const cant = cantIdx >= 0 && row[cantIdx] !== undefined ? toNumber(row[cantIdx]) : 1;
+          const price = priceIdx >= 0 && row[priceIdx] !== undefined ? toNumber(row[priceIdx]) : 0;
+          const unit = unitIdx >= 0 && row[unitIdx] ? String(row[unitIdx]).trim() : "UND";
+
+          state.items.push({
+            desc: desc,
+            modelo: "",
+            marca: "",
+            cant: cant,
+            priceIncIGV: price,
+            unit: unit,
+            image: null
+          });
+          importedCount++;
+        }
+
+        renderItems();
+        syncPreview();
+
+        if (importedCount > 0) {
+          alert(`Se importaron ${importedCount} ítems exitosamente.`);
+        } else {
+          alert("No se encontraron ítems válidos para importar. Revisa las columnas del Excel.");
+        }
+
+      } catch (err) {
+        console.error("Error al procesar excel:", err);
+        alert("Hubo un error al procesar el archivo Excel: " + err.message);
+      }
+    };
+    reader.readAsArrayBuffer(file);
+  }
+
   async function wire() {
     // Check maintenance mode first
     await checkMaintenance();
@@ -1001,6 +1102,15 @@
     }
 
     $("btnAddItem").addEventListener("click", () => addItem());
+
+    // Excel import events
+    const btnImportExcel = $("btnImportExcel");
+    const excelUpload = $("excelUpload");
+    if (btnImportExcel && excelUpload) {
+      btnImportExcel.addEventListener("click", () => excelUpload.click());
+      excelUpload.addEventListener("change", handleExcelImport);
+    }
+
     $("btnGenerate").addEventListener("click", generatePDF);
     $("btnReset").addEventListener("click", resetAll);
 
