@@ -871,7 +871,7 @@
           logging: false
         },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
-        pagebreak: { mode: ['css', 'legacy'], before: '.page-break-before', avoid: '.sheet__payment-totals, .sheet__footer, .totalBox, .bankBox--static' }
+        pagebreak: { mode: ['css', 'legacy'], before: '.page-break-before', avoid: ['tr', 'tbody tr', '.sheet__payment-totals', '.sheet__footer', '.totalBox', '.bankBox--static'] }
       };
 
       console.log("Generando PDF:", filename);
