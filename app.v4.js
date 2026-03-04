@@ -345,8 +345,6 @@
   function addItem(prefill) {
     const item = {
       desc: prefill?.desc ?? "",
-      modelo: prefill?.modelo ?? "",
-      marca: prefill?.marca ?? "",
       cant: prefill?.cant ?? 1,
       priceIncIGV: prefill?.priceIncIGV ?? 0,
       unit: prefill?.unit ?? "UND",
@@ -434,15 +432,6 @@
           <label>Descripción</label>
           <input data-k="desc" data-i="${idx}" placeholder="Descripción del producto/servicio" value="${escapeHtml(it.desc)}" />
         </div>
-        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-          <div class="field">
-            <label>Modelo</label>
-            <input data-k="modelo" data-i="${idx}" placeholder="Modelo" value="${escapeHtml(it.modelo)}" />
-          </div>
-          <div class="field">
-            <label>Marca</label>
-            <input data-k="marca" data-i="${idx}" placeholder="Marca" value="${escapeHtml(it.marca)}" />
-          </div>
         </div>
         <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
           <div class="field">
@@ -494,7 +483,7 @@
         inp.addEventListener("input", (e) => {
           const k = e.target.getAttribute("data-k");
           const i = Number(e.target.getAttribute("data-i"));
-          const isStringField = ["desc", "unit", "modelo", "marca"].includes(k);
+          const isStringField = ["desc", "unit"].includes(k);
           state.items[i][k] = isStringField ? e.target.value : toNumber(e.target.value);
 
           // Only update the importe field for this row, don't re-render everything
@@ -716,13 +705,6 @@
         const tr = document.createElement("tr");
 
         let descHtml = `<div style="font-weight:700;font-size:10px;">${escapeHtml(it.desc || '')}</div>`;
-        if (it.modelo || it.marca) {
-          descHtml += `<div style="font-size:9px;color:#555;margin-top:1px;">`;
-          if (it.modelo) descHtml += `Mod: ${escapeHtml(it.modelo)}`;
-          if (it.modelo && it.marca) descHtml += ` | `;
-          if (it.marca) descHtml += `${escapeHtml(it.marca)}`;
-          descHtml += `</div>`;
-        }
 
         const imgHtml = it.image ? `<img src="${it.image}" style="max-height: 40px; border-radius: 4px;"/>` : '';
         const cId = state.selectedCompany?.id || 'dtg';
@@ -731,7 +713,7 @@
         if (cId === 'interlab') {
           trHtml = `
             <td class="ct-item">${idx + 1}</td>
-            <td class="ct-code">${escapeHtml(it.modelo || '-')}</td>
+            <td class="ct-code">-</td>
             <td class="ct-cant">${escapeHtml(String(it.cant))}</td>
             <td class="ct-um">${escapeHtml(it.unit || 'UND')}</td>
             <td class="ct-desc">${descHtml}</td>
@@ -876,6 +858,78 @@
 
       console.log("Generando PDF:", filename);
 
+      // Save quote to Supabase API
+      try {
+        const quoteData = {
+          quote_no: $("quoteNo")?.value || "",
+          company_id: state.selectedCompany?.id || "dtg",
+          client_name: $("clientName")?.value || "Cliente",
+          total: computeTotals().grandTotal,
+          data: {
+            date: $("quoteDate")?.value || todayISO(),
+            client: {
+              name: $("clientName")?.value || "",
+              doc: $("clientDoc")?.value || "",
+              addr: $("clientAddr")?.value || "",
+              contact: $("clientContact")?.value || "",
+              email: $("clientEmail")?.value || "",
+              phone: $("clientPhone")?.value || "",
+            },
+            items: state.items.map(item => ({ ...item })),
+            totals: computeTotals(),
+            conditions: {
+              validity: $("validity")?.value || "",
+              delivery: $("delivery")?.value || "",
+              warranty: $("warranty")?.value || "",
+              currency: $("currency")?.value || "S/",
+            }
+          }
+        };
+
+        const SUPABASE_URL = "https://uoqszlvdibexcouzdemz.supabase.co";
+        const SUPABASE_ANON_KEY = "sb_publishable_Nk0grjHAbyIt5HlmhT5Feg_mAMDZO7z";
+
+        // Check if quote exists to update or insert
+        const checkRes = await fetch(`${SUPABASE_URL}/rest/v1/cotizaciones?quote_no=eq.${quoteData.quote_no}&company_id=eq.${quoteData.company_id}&select=id`, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+          }
+        });
+
+        const existing = await checkRes.json();
+
+        if (existing && existing.length > 0) {
+          // Update
+          await fetch(`${SUPABASE_URL}/rest/v1/cotizaciones?id=eq.${existing[0].id}`, {
+            method: 'PATCH',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(quoteData),
+          });
+        } else {
+          // Insert
+          await fetch(`${SUPABASE_URL}/rest/v1/cotizaciones`, {
+            method: 'POST',
+            headers: {
+              'apikey': SUPABASE_ANON_KEY,
+              'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              'Content-Type': 'application/json',
+              'Prefer': 'return=minimal'
+            },
+            body: JSON.stringify(quoteData),
+          });
+        }
+
+      } catch (err) {
+        console.error("Failed to build quote data for history:", err);
+      }
+
       // Generate PDF as blob (more reliable for downloads)
       const pdfBlob = await html2pdf().set(opt).from(element).output('blob');
 
@@ -958,7 +1012,7 @@
     $("quoteForm").reset();
     $("quoteDate").value = todayISO();
     state.items = [];
-    addItem({ desc: "", modelo: "", marca: "", cant: 1, priceIncIGV: 0, unit: "UND" });
+    addItem({ desc: "", cant: 1, priceIncIGV: 0, unit: "UND" });
     syncPreview();
   }
 
@@ -1036,8 +1090,6 @@
 
           state.items.push({
             desc: desc,
-            modelo: "",
-            marca: "",
             cant: cant,
             priceIncIGV: price,
             unit: unit,
@@ -1072,7 +1124,7 @@
 
     // defaults
     $("quoteDate").value = todayISO();
-    addItem({ desc: "", modelo: "", marca: "", cant: 1, priceIncIGV: 0, unit: "UND" });
+    addItem({ desc: "", cant: 1, priceIncIGV: 0, unit: "UND" });
 
     // Company selector
     const companySelect = $("companySelect");
@@ -1169,6 +1221,176 @@
     setupManualEdit("p_total", "manualTotal");
     setupManualEdit("p_subtotal", "manualSubtotal");
     setupManualEdit("p_igv", "manualIGV");
+
+    // History Modal Logic (SUPABASE)
+    const btnHistory = $("btnHistory");
+    const historyModal = $("historyModal");
+    const btnCloseModal = $("btnCloseModal");
+    const modalBackdrop = $("modalBackdrop");
+    const historyList = $("historyList");
+    const historyLoading = $("historyLoading");
+    const historyEmpty = $("historyEmpty");
+
+    const SUPABASE_URL = "https://uoqszlvdibexcouzdemz.supabase.co";
+    const SUPABASE_ANON_KEY = "sb_publishable_Nk0grjHAbyIt5HlmhT5Feg_mAMDZO7z";
+
+    const openModal = async () => {
+      if (historyModal) historyModal.classList.add("is-active");
+      await fetchHistory();
+    };
+
+    const closeModal = () => {
+      if (historyModal) historyModal.classList.remove("is-active");
+    };
+
+    if (btnHistory) btnHistory.addEventListener("click", openModal);
+    if (btnCloseModal) btnCloseModal.addEventListener("click", closeModal);
+    if (modalBackdrop) modalBackdrop.addEventListener("click", closeModal);
+
+    async function fetchHistory() {
+      if (historyLoading) historyLoading.style.display = "block";
+      if (historyList) historyList.innerHTML = "";
+      if (historyEmpty) historyEmpty.style.display = "none";
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/cotizaciones?order=created_at.desc`, {
+          method: 'GET',
+          headers: {
+            'apikey': SUPABASE_ANON_KEY,
+            'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        const quotes = await res.json();
+
+        if (!quotes || quotes.length === 0) {
+          if (historyEmpty) historyEmpty.style.display = "block";
+        } else {
+          renderHistoryList(quotes);
+        }
+      } catch (err) {
+        console.error("Error loading history from Supabase:", err);
+        if (historyEmpty) {
+          historyEmpty.textContent = "Error al conectar con la Nube";
+          historyEmpty.style.display = "block";
+        }
+      } finally {
+        if (historyLoading) historyLoading.style.display = "none";
+      }
+    }
+
+    function renderHistoryList(quotes) {
+      if (!historyList) return;
+      historyList.innerHTML = "";
+
+      quotes.forEach(quote => {
+        const formattedDate = new Date(quote.created_at).toLocaleString("es-PE");
+        const grandTotal = quote.total ? quote.total.toFixed(2) : "0.00";
+        const currency = quote.data?.conditions?.currency || "S/";
+        const clientName = quote.client_name || "Cliente sin nombre";
+        const quoteNo = quote.quote_no || "S/N";
+
+        const el = document.createElement("div");
+        el.className = "history-item";
+        el.innerHTML = `
+          <div class="history-item__info">
+            <div class="history-item__title">
+              Quotation #${quoteNo} 
+              <span class="pill" style="font-size: 10px; padding: 2px 6px;">${currency} ${grandTotal}</span>
+            </div>
+            <div class="history-item__meta">${clientName}</div>
+            <div class="history-item__date">${formattedDate}</div>
+          </div>
+          <div class="history-item__actions">
+            <!-- Save ID but also pass the full data object via closure -->
+            <button class="btn btn--primary btn-load-quote" data-id="${quote.id}" style="padding: 6px 12px; font-size: 12px;">Cargar</button>
+            <button class="btn btn--secondary btn-del-quote" data-id="${quote.id}" style="padding: 6px 8px; font-size: 12px; border-color: rgba(239, 68, 68, 0.4); color: #fca5a5;">✖</button>
+          </div>
+        `;
+
+        historyList.appendChild(el);
+      });
+
+      // Bind events
+      document.querySelectorAll(".btn-load-quote").forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const id = e.target.getAttribute("data-id");
+          const quoteRow = quotes.find(q => q.id == id);
+          if (quoteRow && quoteRow.data) {
+            loadQuote(quoteRow.data, quoteRow.quote_no, quoteRow.company_id);
+          }
+        });
+      });
+
+      document.querySelectorAll(".btn-del-quote").forEach(btn => {
+        btn.addEventListener("click", async (e) => {
+          if (!confirm("¿Seguro que deseas eliminar esta cotización de la Nube?")) return;
+          const id = e.target.getAttribute("data-id");
+          try {
+            await fetch(`${SUPABASE_URL}/rest/v1/cotizaciones?id=eq.${id}`, {
+              method: "DELETE",
+              headers: {
+                'apikey': SUPABASE_ANON_KEY,
+                'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+              }
+            });
+            fetchHistory(); // refresh
+          } catch (err) {
+            console.error("Error deleting quote from Supabase:", err);
+          }
+        });
+      });
+    }
+
+    function loadQuote(quoteData, quoteNo, companyId) {
+      if (!quoteData) return;
+
+      // Basic info
+      if ($("quoteNo") && quoteNo) $("quoteNo").value = quoteNo;
+      if ($("quoteDate") && quoteData.date) $("quoteDate").value = quoteData.date;
+
+      // Select correct company
+      if (companyId) {
+        let finalCompanyId = companyId;
+        if (typeof companyId === 'string' && companyId.trim().startsWith('{')) {
+          try {
+            finalCompanyId = JSON.parse(companyId).id;
+          } catch (e) { }
+        } else if (typeof companyId === 'object' && companyId !== null) {
+          finalCompanyId = companyId.id;
+        }
+
+        if ($("companySelect")) $("companySelect").value = finalCompanyId;
+        selectCompany(finalCompanyId);
+      }
+
+      // Client
+      if (quoteData.client) {
+        if ($("clientDoc")) $("clientDoc").value = quoteData.client.doc || "";
+        if ($("clientName")) $("clientName").value = quoteData.client.name || "";
+        if ($("clientAddr")) $("clientAddr").value = quoteData.client.addr || "";
+        if ($("clientContact")) $("clientContact").value = quoteData.client.contact || "";
+        if ($("clientEmail")) $("clientEmail").value = quoteData.client.email || "";
+        if ($("clientPhone")) $("clientPhone").value = quoteData.client.phone || "";
+      }
+
+      // Conditions
+      if (quoteData.conditions) {
+        if ($("validity")) $("validity").value = quoteData.conditions.validity || "";
+        if ($("delivery")) $("delivery").value = quoteData.conditions.delivery || "";
+        if ($("warranty")) $("warranty").value = quoteData.conditions.warranty || "";
+        if ($("currency")) $("currency").value = quoteData.conditions.currency || "S/";
+      }
+
+      // Items
+      if (quoteData.items && Array.isArray(quoteData.items)) {
+        state.items = JSON.parse(JSON.stringify(quoteData.items)); // Deep copy
+      }
+
+      renderItems();
+      syncPreview();
+      closeModal();
+    }
 
     syncPreview();
   }

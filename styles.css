@@ -2073,3 +2073,113 @@ th.right {
   border: none;
   margin-top: 8px;
 }
+
+/* --- History Modal Styles --- */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease-out;
+}
+
+.modal.is-active {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(4px);
+}
+
+.modal__content {
+  position: relative;
+  background: var(--panel);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: translateY(20px);
+  transition: transform 0.2s ease-out;
+}
+
+.modal.is-active .modal__content {
+  transform: translateY(0);
+}
+
+.modal__header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal__body {
+  padding: 16px 20px;
+  overflow-y: auto;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.history-item {
+  background: var(--panel2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 12px 16px;
+  border-radius: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.history-item:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(94, 234, 212, 0.3);
+}
+
+.history-item__info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-item__title {
+  font-weight: 700;
+  font-size: 15px;
+  color: var(--text);
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.history-item__meta {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.history-item__date {
+  font-size: 11px;
+  color: var(--muted);
+  opacity: 0.7;
+}
+
+.history-item__actions {
+  display: flex;
+  gap: 8px;
+}

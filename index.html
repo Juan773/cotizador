@@ -49,6 +49,14 @@
       </select>
     </div>
     <div class="topbar__actions">
+      <button id="btnHistory" class="btn btn--ghost" type="button"
+        style="color: #5eead4; border: 1px dashed rgba(94, 234, 212, 0.4);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" style="vertical-align: middle; margin-right: 4px;">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+        </svg>Historial
+      </button>
       <button id="btnReset" class="btn btn--ghost" type="button">Limpiar</button>
       <button id="btnGenerate" class="btn btn--primary" type="button">Generar PDF</button>
     </div>
@@ -677,6 +685,27 @@
 
     </section>
   </main>
+
+  <!-- History Modal -->
+  <div id="historyModal" class="modal">
+    <div class="modal__backdrop" id="modalBackdrop"></div>
+    <div class="modal__content">
+      <div class="modal__header">
+        <h2 style="margin: 0; color: var(--text);">Historial de Cotizaciones</h2>
+        <button id="btnCloseModal" class="btn btn--ghost"
+          style="padding: 4px 8px; border: none; font-size: 18px;">✕</button>
+      </div>
+      <div class="modal__body">
+        <div id="historyLoading" style="text-align: center; color: var(--muted); padding: 20px;">Cargando historial...
+        </div>
+        <div id="historyEmpty" style="display: none; text-align: center; color: var(--muted); padding: 20px;">No hay
+          cotizaciones guardadas en la Nube.</div>
+        <div class="history-list" id="historyList">
+          <!-- Items will be injected here via JS -->
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- html2pdf (jsPDF + html2canvas) - Local version -->
   <script src="html2pdf.bundle.min.js"></script>
